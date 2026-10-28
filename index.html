@@ -57,6 +57,7 @@ label{display:block;font-size:12px;color:var(--muted);margin:9px 0 4px}
 <main id="view"></main>
 </div>
 <div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 
@@ -247,7 +248,7 @@ async function viewMarket(v){
   v.innerHTML='<h2>Market Data</h2>'
     +'<div class="card"><h3>Add equity scrip manually</h3><div class="row"><div><label>Symbol</label><input id="sSymbol" placeholder="RELIANCE"></div><div><label>Company name</label><input id="sName" placeholder="Reliance Industries"></div><div><label>ISIN code</label><input id="sIsin" placeholder="INE002A01018"></div></div><div class="actions"><button onclick="saveScrip()">Add / update scrip</button></div><div id="scripMsg"></div></div>'
     +'<div class="card" style="margin-top:14px"><h3>Upload NSE equity_L scrip master CSV</h3><input type="file" id="scripFile" accept=".csv"><div class="actions"><button onclick="importScripMaster()">Upload & import scrip details</button></div><div id="scripFileMsg"></div></div>'
-    +'<div class="card" style="margin-top:14px"><h3>Upload NSE bhavcopy CSV</h3><p class="muted">Upload the latest bhavcopy for the previous trading day. The app checks the date in the filename.</p><input type="file" id="bhavFile" accept=".csv"><div class="actions"><button onclick="importBhavcopy()">Upload & update prices</button></div><div id="bhavMsg"></div></div>'
+    +'<div class="card" style="margin-top:14px"><h3>Upload NSE bhavcopy CSV</h3><p class="muted">Upload any bhavcopy CSV. Date validation has been removed.</p><input type="file" id="bhavFile" accept=".csv"><div class="actions"><button onclick="importBhavcopy()">Upload & update prices</button></div><div id="bhavMsg"></div></div>'
     +'<div class="card" style="margin-top:14px"><h3>Stored prices</h3><table><tr><th>Symbol</th><th>Instrument</th><th>Price</th><th>Source</th></tr>'+(rows||'<tr><td colspan="4" class="muted">No prices stored.</td></tr>')+'</table></div>';
 }
 function parseCSV(text){
@@ -259,7 +260,7 @@ function parseCSV(text){
       else cur+=c;
     }else{
       if(c==='"')q=true;
-      else if(c===','){rows.push?0:0;row.push(cur);cur='';}
+      else if(c===','){row.push(cur);cur='';}
       else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur='';}
       else if(c==='\r'){}
       else cur+=c;
@@ -280,18 +281,6 @@ function pick(row){
     if(hit&&row[hit]!==undefined&&row[hit]!=='')return row[hit];
   }
   return '';
-}
-function fileDate(name){
-  const m1=name.match(/(\d{2})(\d{2})(\d{4})/);
-  if(m1)return m1[3]+'-'+m1[2]+'-'+m1[1];
-  const m2=name.match(/(\d{4})-(\d{2})-(\d{2})/);
-  if(m2)return m2[1]+'-'+m2[2]+'-'+m2[3];
-  return '';
-}
-function prevTradingDay(){
-  const d=new Date();
-  do{d.setDate(d.getDate()-1);}while(d.getDay()===0||d.getDay()===6);
-  return d.toISOString().slice(0,10);
 }
 async function saveScrip(){
   const symbol=document.getElementById('sSymbol').value.trim().toUpperCase();
@@ -337,9 +326,6 @@ async function importScripMaster(){
 async function importBhavcopy(){
   const f=document.getElementById('bhavFile').files[0];
   if(!f){msg('bhavMsg','Choose an NSE bhavcopy CSV file.','err');return;}
-  const fdate=fileDate(f.name);
-  const expected=prevTradingDay();
-  if(fdate&&fdate!==expected){msg('bhavMsg','This bhavcopy is dated '+fdate+'. Please upload the latest file for the previous trading day ('+expected+').','err');return;}
   const text=await f.text();
   try{
     const rows=parseCSV(text);
@@ -374,63 +360,121 @@ async function importBhavcopy(){
     render();
   }catch(err){msg('bhavMsg','Could not process file: '+err.message,'err');}
 }
-const IMPORT_COLS=['Category','Type','Name','Symbol','ISIN','Quantity','Average Cost','Purchase Date','Platform','Principal','Interest Rate','Start Date','Tenure Years','Tenure Months','Tenure Days','Interest Type','Payout','Insurer','Policy Name','Policy Number','Coverage Amount','Premium','Premium Frequency','Maturity Date','Nominee','Asset Type','Current Value','Location','Description'];
 async function viewImport(v){
   v.innerHTML='<h2>Bulk Import</h2>'
-    +'<div class="card"><h3>1. Download template</h3><p class="muted">Download the CSV template, open it in Excel, fill your investments category-wise, save as CSV, then upload it below.</p><div class="actions"><button onclick="downloadTemplate()">Download import template (CSV)</button></div></div>'
-    +'<div class="card" style="margin-top:14px"><h3>2. Upload filled template</h3><p class="muted">Use <b>Category</b> = Equity, Debt, Insurance, or Other Asset. The app will create the correct record automatically.</p><input type="file" id="importFile" accept=".csv"><div class="actions"><button onclick="importTemplate()">Upload & import records</button></div><div id="importMsg"></div></div>';
+    +'<div class="card"><h3>1. Download Excel template</h3><p class="muted">The template has separate tabs: Instructions, Equity, Debt, Insurance, and Other Assets. Fill only the rows you need, then save the Excel file and upload it below.</p><div class="actions"><button onclick="downloadTemplateExcel()">Download Excel template</button></div><div id="tplMsg"></div></div>'
+    +'<div class="card" style="margin-top:14px"><h3>2. Upload filled Excel template</h3><p class="muted">Upload the same Excel file after filling it. The app reads each tab and creates the correct records.</p><input type="file" id="importFile" accept=".xlsx,.xls"><div class="actions"><button onclick="importTemplateExcel()">Upload & import records</button></div><div id="importMsg"></div></div>';
 }
-function downloadTemplate(){
-  const header=IMPORT_COLS.join(',');
-  const examples=[
-    'Equity,Equity,Reliance Industries,RELIANCE,INE002A01018,,10,2500,2024-01-15,Zerodha,,,,,,,,,,,,,,,,,,',
-    'Debt,Fixed Deposit,HDFC Bank FD,,HDFC0000317,,,,,100000,7.1,2024-02-01,1,0,0,Cumulative,Quarterly,,,,,,,,,,,,,,',
-    'Insurance,Term,LIC Term Plan,,,,,,,LIC,My Term Plan,123456789,10000000,25000,Yearly,2054-06-30,Spouse,,,,,,,,,,,',
-    'Other Asset,Jewellery,Gold Chain,,,,,,,,,,,,,,,,,,,,,Jewellery,150000,Home locker,22K gold chain'
-  ].join('\n');
-  const blob=new Blob([header+'\n'+examples],{type:'text/csv'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='investtrack_import_template.csv';a.click();
+function downloadTemplateExcel(){
+  if(typeof XLSX==='undefined'){msg('tplMsg','Excel library did not load. Check internet connection and refresh the page.','err');return;}
+  const wb=XLSX.utils.book_new();
+  const instructions=[
+    ['InvestTrack Bulk Import Template'],
+    [''],
+    ['How to use:'],
+    ['1. Open the Equity, Debt, Insurance, or Other Assets tab.'],
+    ['2. Fill one investment per row, starting from row 3.'],
+    ['3. Do not change the header row.'],
+    ['4. Save this file as .xlsx and upload it in the Bulk Import page.'],
+    ['5. Leave columns blank if they do not apply.'],
+    [''],
+    ['Dates: use YYYY-MM-DD format, for example 2026-01-15.'],
+    ['Amounts: enter numbers only, without commas or currency symbols.'],
+    [''],
+    ['Equity needs: Name, Symbol, Quantity, Average Cost.'],
+    ['Debt needs: Type, Name, Principal, Interest Rate, Start Date, Tenure.'],
+    ['Insurance needs: Insurer, Policy Number, Coverage Amount, Premium, Frequency.'],
+    ['Other Assets needs: Asset Type, Name, Current Value.']
+  ];
+  const equity=[['Name','Symbol','ISIN','Quantity','Average Cost','Purchase Date','Platform'],['Reliance Industries','RELIANCE','INE002A01018',10,2500,'2024-01-15','Zerodha']];
+  const debt=[['Type','Name','Principal','Interest Rate','Start Date','Tenure Years','Tenure Months','Tenure Days','Interest Type','Payout','Bank IFSC'],['Fixed Deposit','HDFC Bank FD',100000,7.1,'2024-02-01',1,0,0,'Cumulative','Quarterly','HDFC0000317']];
+  const insurance=[['Insurer','Policy Name','Policy Type','Policy Number','Coverage Amount','Premium','Premium Frequency','Start Date','Maturity Date','Nominee'],['LIC','Jeevan Anand','Endowment','123456789',1000000,25000,'Yearly','2024-01-01','2054-01-01','Spouse']];
+  const assets=[['Asset Type','Name','Description','Purchase Date','Purchase Value','Current Value','Location'],['Jewellery','Gold chain','22K gold chain','2023-05-10',120000,150000,'Home locker']];
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(instructions),'Instructions');
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(equity),'Equity');
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(debt),'Debt');
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(insurance),'Insurance');
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(assets),'Other Assets');
+  XLSX.writeFile(wb,'InvestTrack_Bulk_Import_Template.xlsx');
+  msg('tplMsg','Excel template downloaded.','ok');
 }
-async function importTemplate(){
+async function importTemplateExcel(){
   const f=document.getElementById('importFile').files[0];
-  if(!f){msg('importMsg','Choose the filled CSV template.','err');return;}
-  const text=await f.text();
-  try{
-    const rows=parseCSV(text);
-    if(!rows.length)throw new Error('No data rows found');
-    let ok=0,fail=0;
-    for(const r of rows){
-      const cat=String(pick(r,'Category','CATEGORY')||'').trim().toLowerCase();
-      try{
-        if(cat==='equity'){
-          let inst=INSTRUMENTS.find(function(i){return i.symbol===String(pick(r,'Symbol','SYMBOL')).trim().toUpperCase();});
-          if(!inst){
-            const ins=await client.from('instruments').insert({household_id:HOUSEHOLD,type:String(pick(r,'Type','TYPE'))||'Equity',name:String(pick(r,'Name','NAME'))||'Unnamed',symbol:String(pick(r,'Symbol','SYMBOL')).trim().toUpperCase(),exchange:'NSE',isin:String(pick(r,'ISIN','ISIN')).trim().toUpperCase(),issuer:String(pick(r,'Name','NAME')),category:'Bulk Import'}).select().single();
-            if(ins.error)throw ins.error;inst=ins.data;INSTRUMENTS.push(inst);
-          }
-          const rec={household_id:HOUSEHOLD,owner_email:USER.email,instrument_id:inst.id,quantity:+String(pick(r,'Quantity','QUANTITY')).replace(/,/g,'')||0,avg_cost:+String(pick(r,'Average Cost','AVERAGE COST')).replace(/,/g,'')||0,purchase_date:String(pick(r,'Purchase Date','PURCHASE DATE'))||today(),platform:String(pick(r,'Platform','PLATFORM'))};
-          const res=await client.from('holdings').insert(rec);if(res.error)throw res.error;ok++;
-        }else if(cat==='debt'){
-          const p=+String(pick(r,'Principal','PRINCIPAL')).replace(/,/g,'')||0;const rate=+String(pick(r,'Interest Rate','INTEREST RATE')).replace(/,/g,'')||0;
-          const start=String(pick(r,'Start Date','START DATE'))||today();const y=+String(pick(r,'Tenure Years','TENURE YEARS'))||0;const m=+String(pick(r,'Tenure Months','TENURE MONTHS'))||0;const d=+String(pick(r,'Tenure Days','TENURE DAYS'))||0;
-          const it=String(pick(r,'Interest Type','INTEREST TYPE'))||'Cumulative';const po=String(pick(r,'Payout','PAYOUT'))||'Maturity';
-          const c=calcInterest(p,rate,y,m,d,it,po);
-          const rec={household_id:HOUSEHOLD,owner_email:USER.email,investment_type:String(pick(r,'Type','TYPE'))||'Fixed Deposit',name:String(pick(r,'Name','NAME'))||'Debt investment',principal:p,rate:rate,start_date:start,tenure_years:y,tenure_months:m,tenure_days:d,interest_type:it,payout:po,interest_per_year:c.interestPerYear,interest_per_period:c.interestPerPeriod,interest_amount:c.interest,maturity_date:addDays(start,y,m,d),maturity_value:c.maturityValue,ifsc:String(pick(r,'IFSC','ifsc')).trim().toUpperCase(),status:'Active'};
-          const res=await client.from('debt_investments').insert(rec);if(res.error)throw res.error;ok++;
-        }else if(cat==='insurance'){
-          const premium=+String(pick(r,'Premium','PREMIUM')).replace(/,/g,'')||0;const freq=String(pick(r,'Premium Frequency','PREMIUM FREQUENCY'))||'Yearly';
-          const rec={household_id:HOUSEHOLD,owner_email:USER.email,insurer:String(pick(r,'Insurer','INSURER'))||'LIC',policy_name:String(pick(r,'Policy Name','POLICY NAME')),policy_type:String(pick(r,'Type','TYPE'))||'Term',insured_name:USER.email,policy_number:String(pick(r,'Policy Number','POLICY NUMBER')),coverage_amount:+String(pick(r,'Coverage Amount','COVERAGE AMOUNT')).replace(/,/g,'')||0,premium:premium,premium_frequency:freq,annualized_premium:annualize(premium,freq),start_date:today(),maturity_date:String(pick(r,'Maturity Date','MATURITY DATE')),nominee:String(pick(r,'Nominee','NOMINEE')),status:'Active'};
-          const res=await client.from('insurance_policies').insert(rec);if(res.error)throw res.error;ok++;
-        }else if(cat==='other asset'){
-          const rec={household_id:HOUSEHOLD,owner_email:USER.email,asset_type:String(pick(r,'Type','TYPE'))||'Other',name:String(pick(r,'Name','NAME'))||'Asset',description:String(pick(r,'Description','DESCRIPTION')),purchase_date:String(pick(r,'Purchase Date','PURCHASE DATE'))||today(),purchase_value:+String(pick(r,'Average Cost','AVERAGE COST')).replace(/,/g,'')||0,current_value:+String(pick(r,'Current Value','CURRENT VALUE')).replace(/,/g,'')||0,location:String(pick(r,'Location','LOCATION')),detail:String(pick(r,'Description','DESCRIPTION'))};
-          const res=await client.from('other_assets').insert(rec);if(res.error)throw res.error;ok++;
+  if(!f){msg('importMsg','Choose the filled Excel template.','err');return;}
+  if(typeof XLSX==='undefined'){msg('importMsg','Excel library did not load. Check internet connection and refresh the page.','err');return;}
+  const reader=new FileReader();
+  reader.onload=async function(e){
+    try{
+      const wb=XLSX.read(e.target.result,{type:'array'});
+      let ok=0,fail=0;
+      const sheet=wb.Sheets['Equity'];
+      if(sheet){
+        const rows=XLSX.utils.sheet_to_json(sheet,{defval:''});
+        for(const r of rows){
+          try{
+            const symbol=String(pick(r,'Symbol','SYMBOL')).trim().toUpperCase();
+            const name=String(pick(r,'Name','NAME')).trim();
+            if(!symbol||!name)continue;
+            let inst=INSTRUMENTS.find(function(i){return i.symbol===symbol;});
+            if(!inst){
+              const ins=await client.from('instruments').insert({household_id:HOUSEHOLD,type:'Equity',name:name,symbol:symbol,exchange:'NSE',isin:String(pick(r,'ISIN','ISIN')).trim().toUpperCase(),issuer:name,category:'Bulk Import'}).select().single();
+              if(ins.error)throw ins.error;inst=ins.data;INSTRUMENTS.push(inst);
+            }
+            const rec={household_id:HOUSEHOLD,owner_email:USER.email,instrument_id:inst.id,quantity:+String(pick(r,'Quantity','QUANTITY')).replace(/,/g,'')||0,avg_cost:+String(pick(r,'Average Cost','AVERAGE COST')).replace(/,/g,'')||0,purchase_date:String(pick(r,'Purchase Date','PURCHASE DATE'))||today(),platform:String(pick(r,'Platform','PLATFORM'))};
+            const res=await client.from('holdings').insert(rec);if(res.error)throw res.error;ok++;
+          }catch(err){fail++;}
         }
-      }catch(e){fail++;}
-    }
-    await loadInstruments();
-    msg('importMsg','Import finished: '+ok+' records added, '+fail+' rows failed. Check that Category, required amounts, and dates are filled correctly.','ok');
-    render();
-  }catch(err){msg('importMsg','Could not process file: '+err.message,'err');}
+      }
+      const dsheet=wb.Sheets['Debt'];
+      if(dsheet){
+        const rows=XLSX.utils.sheet_to_json(dsheet,{defval:''});
+        for(const r of rows){
+          try{
+            const p=+String(pick(r,'Principal','PRINCIPAL')).replace(/,/g,'')||0;
+            const rate=+String(pick(r,'Interest Rate','INTEREST RATE')).replace(/,/g,'')||0;
+            const start=String(pick(r,'Start Date','START DATE'))||today();
+            const y=+String(pick(r,'Tenure Years','TENURE YEARS'))||0;
+            const m=+String(pick(r,'Tenure Months','TENURE MONTHS'))||0;
+            const d=+String(pick(r,'Tenure Days','TENURE DAYS'))||0;
+            const it=String(pick(r,'Interest Type','INTEREST TYPE'))||'Cumulative';
+            const po=String(pick(r,'Payout','PAYOUT'))||'Maturity';
+            if(!p||!rate)continue;
+            const c=calcInterest(p,rate,y,m,d,it,po);
+            const rec={household_id:HOUSEHOLD,owner_email:USER.email,investment_type:String(pick(r,'Type','TYPE'))||'Fixed Deposit',name:String(pick(r,'Name','NAME'))||'Debt investment',principal:p,rate:rate,start_date:start,tenure_years:y,tenure_months:m,tenure_days:d,interest_type:it,payout:po,interest_per_year:c.interestPerYear,interest_per_period:c.interestPerPeriod,interest_amount:c.interest,maturity_date:addDays(start,y,m,d),maturity_value:c.maturityValue,ifsc:String(pick(r,'Bank IFSC','BANK IFSC')).trim().toUpperCase(),status:'Active'};
+            const res=await client.from('debt_investments').insert(rec);if(res.error)throw res.error;ok++;
+          }catch(err){fail++;}
+        }
+      }
+      const isheet=wb.Sheets['Insurance'];
+      if(isheet){
+        const rows=XLSX.utils.sheet_to_json(isheet,{defval:''});
+        for(const r of rows){
+          try{
+            const premium=+String(pick(r,'Premium','PREMIUM')).replace(/,/g,'')||0;
+            const freq=String(pick(r,'Premium Frequency','PREMIUM FREQUENCY'))||'Yearly';
+            const rec={household_id:HOUSEHOLD,owner_email:USER.email,insurer:String(pick(r,'Insurer','INSURER'))||'LIC',policy_name:String(pick(r,'Policy Name','POLICY NAME')),policy_type:String(pick(r,'Policy Type','POLICY TYPE'))||'Term',insured_name:USER.email,policy_number:String(pick(r,'Policy Number','POLICY NUMBER')),coverage_amount:+String(pick(r,'Coverage Amount','COVERAGE AMOUNT')).replace(/,/g,'')||0,premium:premium,premium_frequency:freq,annualized_premium:annualize(premium,freq),start_date:String(pick(r,'Start Date','START DATE'))||today(),maturity_date:String(pick(r,'Maturity Date','MATURITY DATE')),nominee:String(pick(r,'Nominee','NOMINEE')),status:'Active'};
+            if(!rec.policy_number||!rec.coverage_amount)continue;
+            const res=await client.from('insurance_policies').insert(rec);if(res.error)throw res.error;ok++;
+          }catch(err){fail++;}
+        }
+      }
+      const asheet=wb.Sheets['Other Assets'];
+      if(asheet){
+        const rows=XLSX.utils.sheet_to_json(asheet,{defval:''});
+        for(const r of rows){
+          try{
+            const rec={household_id:HOUSEHOLD,owner_email:USER.email,asset_type:String(pick(r,'Asset Type','ASSET TYPE'))||'Other',name:String(pick(r,'Name','NAME'))||'Asset',description:String(pick(r,'Description','DESCRIPTION')),purchase_date:String(pick(r,'Purchase Date','PURCHASE DATE'))||today(),purchase_value:+String(pick(r,'Purchase Value','PURCHASE VALUE')).replace(/,/g,'')||0,current_value:+String(pick(r,'Current Value','CURRENT VALUE')).replace(/,/g,'')||0,location:String(pick(r,'Location','LOCATION')),detail:String(pick(r,'Description','DESCRIPTION'))};
+            if(!rec.name||!rec.current_value)continue;
+            const res=await client.from('other_assets').insert(rec);if(res.error)throw res.error;ok++;
+          }catch(err){fail++;}
+        }
+      }
+      await loadInstruments();
+      msg('importMsg','Import finished: '+ok+' records added, '+fail+' rows failed.','ok');
+      render();
+    }catch(err){msg('importMsg','Could not process file: '+err.message,'err');}
+  };
+  reader.readAsArrayBuffer(f);
 }
 async function viewUsers(v){
   const r=await client.from('household_members').select('*').eq('household_id',HOUSEHOLD);
