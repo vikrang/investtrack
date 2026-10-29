@@ -522,10 +522,42 @@ async function deleteRecord(table,id){
 function openModal(html){document.getElementById('modalBox').innerHTML=html;document.getElementById('modal').classList.add('open');}
 function closeModal(){document.getElementById('modal').classList.remove('open');}
 document.getElementById('modal').addEventListener('click',function(e){if(e.target.id==='modal')closeModal();});
-document.getElementById('signIn').addEventListener('click',signIn);
+/* Old login binding replaced by repair script. */
 document.getElementById('signOut').addEventListener('click',signOut);
 init();
 
+</script>
+<style id="investtrack-login-refresh">
+#login{box-sizing:border-box;width:min(560px,calc(100% - 32px));max-width:560px;margin:9vh auto;padding:40px;border:1px solid #364967;border-radius:26px;background:radial-gradient(ellipse at top right,#24466c,transparent 65%),#111c30;box-shadow:0 24px 80px #0006;color:#eff5ff;font-family:Segoe UI,Arial,sans-serif}#login h2{font-size:32px;letter-spacing:-1px;margin:8px 0 16px}#login h2::before{content:'↗ ';color:#70dfc5}#login p{color:#b6c9e3;line-height:1.65}#login #signIn{width:100%;min-height:52px;background:#f0f6ff;color:#142944;border:0;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer}#login #signIn:disabled{opacity:.65}#login #loginMsg:not(:empty){margin-top:16px;padding:12px;background:#263954;border-radius:10px;line-height:1.5}#it-login-tagline{font-size:24px;line-height:1.3;margin-bottom:20px}#it-login-tagline small{display:block;font-size:13px;color:#78dbc8;margin-top:14px}
+</style>
+<script id="investtrack-google-login-repair">
+(function(){
+function wireLogin(){
+ const old=document.getElementById('signIn');
+ if(!old)return;
+ const button=old.cloneNode(true);old.replaceWith(button);
+ button.removeAttribute('onclick');button.disabled=false;
+ const login=document.getElementById('login');
+ if(login&&!document.getElementById('it-login-tagline')){
+  const line=document.createElement('div');line.id='it-login-tagline';line.textContent='Every investment. One clear view.';
+  const note=document.createElement('small');note.textContent='Equity · Deposits · Insurance · Other assets';line.appendChild(note);
+  login.insertBefore(line,button);
+ }
+ button.addEventListener('click',async function(){
+  let out=document.getElementById('loginMsg');
+  if(!out){out=document.createElement('div');out.id='loginMsg';button.after(out);}
+  out.setAttribute('role','status');out.textContent='Connecting to Google…';button.disabled=true;
+  try{
+   if(typeof client==='undefined'||!client.auth)throw new Error('Supabase client is not available. Check your configuration and earlier script errors.');
+   const result=await client.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname,skipBrowserRedirect:true}});
+   if(result.error)throw result.error;
+   if(!result.data||!result.data.url)throw new Error('No Google sign-in URL was returned.');
+   location.assign(result.data.url);
+  }catch(e){console.error('InvestTrack Google login:',e);out.textContent='Unable to start sign-in: '+(e.message||String(e));button.disabled=false;}
+ });
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wireLogin);else wireLogin();
+})();
 </script>
 </body>
 </html>
