@@ -82,7 +82,17 @@ function render(){
 }
 async function init(){
   const r=await client.auth.getSession();
-  if(r.data.session){USER=r.data.session.user;await loadHousehold();}
+  if(r.data.session){
+    USER=r.data.session.user;
+    await loadHousehold();
+    if(!HOUSEHOLD){
+      await client.auth.signOut({scope:'local'});
+      USER=null;
+      msg('loginMsg','This Google account is not authorised. Ask the Owner to add your Gmail to the household.','err');
+      render();
+      return;
+    }
+  }
   render();
 }
 async function loadHousehold(){
