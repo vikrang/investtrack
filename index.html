@@ -1,91 +1,1710 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>InvestTrack — Family Investments</title><link rel="icon" href="data:,"><style>
-:root{color-scheme:dark;--bg:#0b1220;--panel:#142139;--line:#304563;--muted:#adc0da;--accent:#659fff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#eef5ff;font:14px/1.6 'Segoe UI',Arial,sans-serif}button,input,select{font:inherit}button{background:var(--accent);color:#081c38;border:0;border-radius:9px;padding:10px 16px;cursor:pointer;font-weight:600}button:disabled{opacity:.5;cursor:wait}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #88ddcf;outline-offset:2px}.ghost{background:#253b58;color:#eef5ff}.danger{background:#683342;color:white}input,select{width:100%;background:#0c1729;color:#eef5ff;border:1px solid var(--line);border-radius:8px;padding:10px}label{display:block;color:var(--muted);margin:12px 0 5px}h1,h2,h3{line-height:1.25}h2{margin-top:0}.hidden{display:none!important}.card{padding:24px;background:var(--panel);border:1px solid var(--line);border-radius:17px;margin-bottom:18px;overflow:auto}.muted{color:var(--muted)}header{padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line);background:#101d32;flex-wrap:wrap}.brand{font-size:23px;font-weight:750}.brand span{color:#85b9ff}nav{display:flex;gap:8px;padding:12px 24px;flex-wrap:wrap}nav button{background:transparent;color:var(--muted)}nav button.active{background:#264570;color:white}main{max-width:1350px;margin:auto;padding:24px}.row,.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.notice{white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;color:#ace6d8}.error{color:#ffb0b0}.value{font-size:28px;font-weight:700}table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:#b8cee9;white-space:nowrap}.tag{font-size:12px;color:#a9d9ff}.modal{position:fixed;inset:0;background:#030912dd;z-index:50;overflow:auto;padding:30px 16px}.modalbox{max-width:900px;margin:auto}.suggest{background:#203655;border:1px solid #456180;max-height:260px;overflow:auto;border-radius:10px}.suggest button{display:block;width:100%;text-align:left;background:transparent;color:#eaf3ff;border-radius:0;border-bottom:1px solid #344d70}.suggest button:hover{background:#34547c}#login{width:min(560px,calc(100% - 32px));margin:9vh auto;padding:40px;border:1px solid #405b7e;border-radius:26px;background:radial-gradient(ellipse at top right,#284c73,transparent 65%),#142139;box-shadow:0 24px 80px #0006}#login h1{font-size:35px;letter-spacing:-1px;margin:24px 0 16px}#signIn{width:100%;min-height:53px;background:#eef5ff;color:#172c49;font-size:16px}.eyebrow{color:#7edcc7;text-transform:uppercase;letter-spacing:2px;font-size:11px}.chips{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0}.chips span{border:1px solid #456081;border-radius:20px;padding:5px 10px;color:#c3d7ee;font-size:12px}footer{padding-top:24px;color:#9cb6d4;font-size:12px}#global{margin:0 24px}small{color:var(--muted)}
-</style><style id="investtrack-forest-theme">
-/* InvestTrack: warm ivory, forest green and copper */
-:root{color-scheme:light;--bg:#f6f3ec;--panel:#fffdf8;--line:#d7dfd2;--muted:#56675d;--accent:#24624b;--card:#fffdf8;--card2:#f4f6ef;--text:#20382c;--green:#23724d;--red:#a63939;--amber:#94621a}
-body{background:var(--bg);color:var(--text)}
-header{background:#edf2e7;border-color:var(--line)}
-.brand{color:#203e2f}.brand span{color:#367352}
-button{background:#24624b;color:#fffdf8}button:hover{filter:brightness(.94)}button:focus-visible,input:focus-visible,select:focus-visible{outline-color:#b0773d}
-button.ghost,.ghost{background:#e5ecdf;color:#294435;border:1px solid #c5d3bf}
-button.danger,.danger{background:#934841;color:#fff}
-nav{background:transparent;border-color:var(--line)}nav button{color:#526454;background:transparent}nav button.active{background:#dce8d5;color:#23442f}
-.card{background:#fffdf8;border-color:#d7dfd2;box-shadow:0 5px 20px #35452c06}
-input,select{background:#fafbf6;color:#20382c;border-color:#bdccb7}
-th{color:#456046}td,th{border-color:#dce3d6}
-.muted,small,label{color:#56675d}.tag{color:#426747;background:#edf2e6;border-color:#d3deca}
-.notice,.ok{color:#235c42}.notice.error,.error,.err{color:#a23c32}
-.suggest,.suggestions{background:#fffdf8;border-color:#b9cbb0}.suggest button{color:#20382c;background:#fffdf8;border-color:#dce3d6}.suggest button:hover,.suggest div:hover{background:#e8f0e0}
-.modal{background:#142b22b8}.bar{background:#e0e8d9}.bar i{background:#447a50}
-#login{background:radial-gradient(ellipse at top right,#e4edd9,transparent 70%),#fffdf8;color:#20382c;border-color:#c5d3bb;box-shadow:0 24px 80px #2c412518;border-radius:26px}
-#login h1,#login h2{color:#203e2f}#login h2::before{color:#a56d35}#login .brand{color:#203e2f}#login .brand span{color:#367352}
-#login p,#login .it-description,#login .it-access,#login footer,#login .it-footer,#login #it-login-tagline small{color:#596d55}
-#login .eyebrow,#login .it-eyebrow{color:#8b6238}
-#login .chips span,#login .it-chips span{background:#edf2e5;border-color:#cfdbc4;color:#42603c}
-#login #signIn{background:#24624b;color:#fffdf8;border-color:#24624b}#login #loginMsg:not(:empty){background:#edf2e5;color:#264d34;border:1px solid #c5d4bb}
-#login #loginMsg.error{color:#9a362e;background:#fff0e9}#login .it-mark{background:#e2ecd9;color:#326440;border-color:#b4c9a7}
+<<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>InvestTrack — Family Investments</title>
+<link rel="icon" href="data:,">
+
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f5f2eb;
+  --card: #fffdf8;
+  --text: #233b2d;
+  --muted: #637363;
+  --line: #d7dfd0;
+  --accent: #286449;
+  --danger: #99463b;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.6 "Segoe UI", Arial, sans-serif;
+}
+button, input, select { font: inherit; }
+button {
+  padding: 10px 16px;
+  background: var(--accent);
+  color: white;
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 600;
+}
+button:disabled { opacity: .5; cursor: wait; }
+button.ghost { background: #e4ebdf; color: var(--text); }
+button.danger { background: var(--danger); }
+input, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bdcbb6;
+  border-radius: 8px;
+  background: #fcfdf9;
+  color: var(--text);
+}
+label { display: block; margin: 12px 0 5px; }
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 18px 24px;
+  background: #edf1e7;
+  border-bottom: 1px solid var(--line);
+}
+.brand { font-size: 25px; font-weight: 750; }
+.brand span { color: #38764d; }
+nav {
+  display: flex;
+  gap: 8px;
+  padding: 12px 24px;
+  flex-wrap: wrap;
+}
+nav button { background: transparent; color: var(--muted); }
+nav button.active { background: #dce8d4; color: #25472e; }
+main { max-width: 1400px; margin: auto; padding: 24px; }
+.card {
+  padding: 24px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  margin-bottom: 20px;
+  overflow: auto;
+}
+.row, .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap: 16px;
+}
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 18px 0; }
+.muted, small { color: var(--muted); }
+.notice { white-space: pre-wrap; overflow-wrap: anywhere; margin: 12px 0; }
+.error { color: #a3352c; }
+.hidden { display: none !important; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+th { white-space: nowrap; color: #496347; }
+td .actions { margin: 0; flex-wrap: nowrap; }
+.value { font-size: 28px; font-weight: 700; }
+#global { margin: 0 24px; }
+#login {
+  width: min(560px,calc(100% - 32px));
+  margin: 9vh auto;
+  padding: 40px;
+  border: 1px solid #c6d3bc;
+  border-radius: 26px;
+  background:
+    radial-gradient(ellipse at top right,#e0ebd3,transparent 65%),
+    #fffdf8;
+  box-shadow: 0 24px 80px #25412515;
+}
+#login h1 { font-size: 36px; line-height: 1.2; letter-spacing: -1px; }
+#signIn { width: 100%; min-height: 52px; }
+.eyebrow { color: #91683f; text-transform: uppercase; letter-spacing: 2px; }
+.modal {
+  position: fixed;
+  inset: 0;
+  padding: 30px 16px;
+  background: #152c22bb;
+  overflow: auto;
+  z-index: 50;
+}
+.modalbox { max-width: 950px; margin: auto; }
+.suggest {
+  max-height: 260px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.suggest button {
+  width: 100%;
+  display: block;
+  text-align: left;
+  color: var(--text);
+  background: #f4f8ee;
+  border-radius: 0;
+  border-bottom: 1px solid var(--line);
+}
 </style>
-</head><body>
-<section id="login"><div class="brand">↗ Invest<span>Track</span></div><p class="eyebrow">Your family's financial picture</p><h1>Every investment.<br>One clear view.</h1><p class="muted">Organise holdings, deposits, insurance and other assets in one shared household.</p><div class="chips"><span>Equity & funds</span><span>Debt & deposits</span><span>Insurance</span><span>Other assets</span></div><button id="signIn" type="button">Continue with Google</button><div id="loginMsg" class="notice" role="status" aria-live="polite"></div><footer>Use the Google account approved for your household.<br>InvestTrack · Organise today. Plan for tomorrow.</footer></section>
-<div id="app" class="hidden"><header><div class="brand">↗ Invest<span>Track</span></div><span id="who"></span><button id="signOut" class="ghost">Sign out</button></header><nav id="nav"></nav><div id="global" class="notice" role="status"></div><main id="view"></main></div>
-<div id="modal" class="modal hidden"><div class="card modalbox"><div id="modalBox"></div></div></div>
+</head>
+
+<body>
+<section id="login">
+  <div class="brand">↗ Invest<span>Track</span></div>
+  <p class="eyebrow">Your family's financial picture</p>
+  <h1>Every investment.<br>One clear view.</h1>
+  <p class="muted">
+    Equity, deposits, insurance and other assets,
+    organised for your household.
+  </p>
+  <button id="signIn" type="button">Continue with Google</button>
+  <div id="loginMsg" class="notice" role="status" aria-live="polite"></div>
+  <small>Use the Google account approved for your household.</small>
+</section>
+
+<div id="app" class="hidden">
+  <header>
+    <div class="brand">↗ Invest<span>Track</span></div>
+    <span id="who"></span>
+    <button id="signOut" class="ghost">Sign out</button>
+  </header>
+  <nav id="nav"></nav>
+  <div id="global" class="notice" role="status"></div>
+  <main id="view"></main>
+</div>
+
+<div id="modal" class="modal hidden">
+  <div class="card modalbox">
+    <div id="modalBox"></div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
 <script>
-'use strict';
-const SUPABASE_URL='https://oqgtklevnwqnoafkzrcz.supabase.co';
-const SUPABASE_ANON_KEY='sb_publishable_CsONgxTLUbhZca4uLVEyCw_XRyw53-b';
-let client,USER=null,HOUSEHOLD=null,ROLE='Viewer',INSTRUMENTS=[],PRICES={},tab='dashboard',busy=false;
-const $=id=>document.getElementById(id);
-const locale=navigator.language||'en-IN';
-const fmt=n=>new Intl.NumberFormat(locale,{style:'currency',currency:'INR',maximumFractionDigits:2}).format(Number(n)||0);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function status(id,text,error=false){$(id).textContent=text;$(id).className='notice'+(error?' error':'');}
-function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
-const canEdit=()=>['Owner','Editor'].includes(ROLE);
-function requireEdit(){if(!HOUSEHOLD||!canEdit())throw new Error('An Owner or Editor membership is required.');}
-async function checked(query){const r=await query;if(r.error)throw new Error(r.error.message);return r.data;}
-async function allRows(table,filters={}){let rows=[],offset=0;for(;;){let q=client.from(table).select('*').order('id').range(offset,offset+499);for(const [k,v]of Object.entries(filters))q=q.eq(k,v);const data=await checked(q);if(!data?.length)break;rows.push(...data);offset+=data.length;}return rows;}
-async function loadInstruments(){if(!HOUSEHOLD)throw new Error('No household linked.');const [ins,prices]=await Promise.all([allRows('instruments',{household_id:HOUSEHOLD}),allRows('market_prices',{household_id:HOUSEHOLD})]);INSTRUMENTS=ins.sort((a,b)=>String(a.name||'').localeCompare(String(b.name||'')));PRICES={};prices.forEach(p=>PRICES[p.symbol]=p);}
-async function signInWithGoogle(){status('loginMsg','Connecting to Google…');$('signIn').disabled=true;try{if(!client)throw new Error('Supabase library could not load. Check your connection.');const r=await client.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname,skipBrowserRedirect:true}});if(r.error)throw r.error;if(!r.data?.url)throw new Error('No login URL returned.');location.assign(r.data.url);}catch(e){status('loginMsg',e.message,true);$('signIn').disabled=false;}}
-async function init(){try{if(!window.supabase)throw new Error('Supabase library did not load. Check internet/CDN access.');client=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);const r=await client.auth.getSession();if(r.error)throw r.error;if(!r.data.session)return;const u=await client.auth.getUser();if(u.error)throw u.error;USER=u.data.user;const members=await checked(client.from('household_members').select('household_id,role').eq('user_id',USER.id));if(!members?.length){await client.auth.signOut({scope:'local'});USER=null;throw new Error('This Google account is not authorised. Ask the Owner to add your user ID to the household.');}if(members.length>1)throw new Error('Multiple household memberships found. This version requires one household per account.');HOUSEHOLD=members[0].household_id;ROLE=members[0].role;$('login').classList.add('hidden');$('app').classList.remove('hidden');$('who').textContent=USER.email+' · '+ROLE;await render();}catch(e){USER=null;HOUSEHOLD=null;$('app').classList.add('hidden');$('login').classList.remove('hidden');status('loginMsg','Sign-in/setup error: '+e.message,true);}}
-async function signOut(){try{if(busy)throw new Error('Wait for the import to finish before signing out.');await checked(client.auth.signOut({scope:'local'}));USER=null;HOUSEHOLD=null;ROLE='Viewer';INSTRUMENTS=[];PRICES={};$('app').classList.add('hidden');$('login').classList.remove('hidden');status('loginMsg','Signed out.');$('signIn').disabled=false;}catch(e){status('global',e.message,true);}}
-const TABS=[['dashboard','Dashboard'],['portfolio','Equity & MF'],['fixed','Debt & Maturity'],['insurance','Insurance'],['assets','Other Assets'],['market','Market Data'],['import','Bulk Import'],['users','Users']];
-async function render(){const nav=$('nav');nav.replaceChildren();TABS.forEach(([id,label])=>{const b=document.createElement('button');b.textContent=label;b.className=tab===id?'active':'';b.disabled=busy;b.onclick=()=>{tab=id;render();};nav.appendChild(b);});$('view').innerHTML='<p>Loading household data…</p>';try{await loadInstruments();if(tab==='dashboard')await dashboard();else if(tab==='market')market();else if(tab==='import')bulk();else if(tab==='users')await users();else await records(tab);}catch(e){$('view').innerHTML='<div class="card"><h2>Unable to load data</h2><p>'+esc(e.message)+'</p><button onclick="render()">Retry</button></div>';}}
-const instrument=id=>INSTRUMENTS.find(i=>i.id===id);
-function holdingValue(h){const i=instrument(h.instrument_id);return Number(h.quantity)*(Number(PRICES[i?.symbol]?.price)||Number(h.avg_cost));}
-async function dashboard(){const [h,d,i,a]=await Promise.all(['holdings','debt_investments','insurance_policies','other_assets'].map(t=>allRows(t,{household_id:HOUSEHOLD})));const sums={Equity:0,Debt:0,'Insurance premiums':0,'Other assets':0};h.forEach(x=>{const type=instrument(x.instrument_id)?.type||'';sums[/Debt/.test(type)?'Debt':'Equity']+=holdingValue(x);});d.filter(x=>x.status==='Active').forEach(x=>sums.Debt+=Number(x.principal));i.filter(x=>x.status==='Active').forEach(x=>sums['Insurance premiums']+=Number(x.annualized_premium));a.forEach(x=>sums['Other assets']+=Number(x.current_value));$('view').innerHTML='<h2>Household overview</h2><div class="grid">'+Object.entries(sums).map(([k,v])=>'<div class="card"><h3>'+k+'</h3><div class="value">'+fmt(v)+'</div></div>').join('')+'</div><div class="card">Loaded '+INSTRUMENTS.length+' scrips and '+Object.keys(PRICES).length+' prices.<p class="muted">Insurance shows annualised premiums, not asset value. These cards should not be added together as net worth. Debt projections are estimates; verify product terms.</p></div>';}
-const DEBT_TYPES=['Fixed Deposit','Recurring Deposit','Bond','Non-Convertible Debenture','Sovereign Gold Bond','Tax-free Bond','Corporate FD','Post Office Savings','PPF','Small Savings Scheme','Debt Mutual Fund','Other Debt Investment'];
-const TYPES=['Equity','ETF','Equity Mutual Fund','Debt Mutual Fund'];
-const FIELD=(key,label,type='text',options=null,required=false)=>({key,label,type,options,required});
-const SPECS={portfolio:{table:'holdings',title:'Equity & MF',fields:[FIELD('instrument_id','Select scrip','scrip',null,true),FIELD('quantity','Quantity','number',null,true),FIELD('avg_cost','Average purchase cost / NAV','number',null,true),FIELD('purchase_date','Purchase date','date',null,true),FIELD('platform','Platform')]},fixed:{table:'debt_investments',title:'Debt & Maturity',fields:[FIELD('investment_type','Investment type','select',DEBT_TYPES,true),FIELD('name','Investment name','text',null,true),FIELD('principal','Principal / RD monthly instalment','number',null,true),FIELD('rate','Annual interest rate (%)','number',null,true),FIELD('start_date','Start date','date',null,true),FIELD('tenure_years','Tenure years','number'),FIELD('tenure_months','Tenure months','number'),FIELD('tenure_days','Tenure days','number'),FIELD('interest_type','Interest type','select',['Cumulative','Fixed Payout','Recurring Deposit']),FIELD('payout','Payout / compounding','select',['Monthly','Quarterly','Half-Yearly','Annually','Maturity']),FIELD('ifsc','Bank IFSC')]},insurance:{table:'insurance_policies',title:'Insurance',fields:[FIELD('insurer','Insurer','text',null,true),FIELD('policy_name','Policy name'),FIELD('policy_type','Policy type','select',['Term','Endowment','Money Back','ULIP','Whole Life','Health','Motor','Other']),FIELD('insured_name','Insured person'),FIELD('policy_number','Policy number','text',null,true),FIELD('coverage_amount','Coverage amount','number',null,true),FIELD('premium','Premium','number',null,true),FIELD('premium_frequency','Premium frequency','select',['Monthly','Quarterly','Half-Yearly','Yearly','Single']),FIELD('start_date','Start date','date'),FIELD('maturity_date','Maturity date','date'),FIELD('nominee','Nominee')]},assets:{table:'other_assets',title:'Other Assets',fields:[FIELD('asset_type','Asset type','select',['Jewellery','Vehicle','Real Estate','Electronics','Furniture','Collectible','Other']),FIELD('name','Name','text',null,true),FIELD('description','Description'),FIELD('purchase_date','Purchase date','date'),FIELD('purchase_value','Purchase value','number'),FIELD('current_value','Current value','number',null,true),FIELD('location','Location'),FIELD('detail','Extra detail')]}};
-async function records(kind){const s=SPECS[kind],rows=await allRows(s.table,{household_id:HOUSEHOLD});let cols=s.fields.filter(f=>f.type!=='scrip').map(f=>[f.key,f.label]);if(kind==='portfolio')cols=[['scrip','Scrip / ISIN'],...cols,['valuation','Current value'],['gain','Gain / loss']];if(kind==='fixed')cols.push(['interest_amount','Projected total interest'],['maturity_date','Maturity date'],['maturity_value','Projected maturity / receipts']);$('view').innerHTML='<h2>'+s.title+'</h2><div class="actions">'+(canEdit()?'<button onclick="recordForm(\''+kind+'\')">+ Add record</button>':'')+'</div><div class="card"><table><thead><tr>'+cols.map(c=>'<th>'+esc(c[1])+'</th>').join('')+'<th></th></tr></thead><tbody>'+rows.map(r=>'<tr>'+cols.map(([key])=>{let val=r[key];if(key==='scrip'){const x=instrument(r.instrument_id);val=x?`${x.symbol} — ${x.name} · ${x.isin||''}`:'Unknown scrip';}if(key==='valuation')val=fmt(holdingValue(r));if(key==='gain')val=fmt(holdingValue(r)-r.quantity*r.avg_cost);if(/^(principal|avg_cost|premium|coverage_amount|purchase_value|current_value|interest_amount|maturity_value)$/.test(key))val=fmt(val);if(/date$/.test(key)&&val)val=new Intl.DateTimeFormat(locale).format(new Date(val+'T12:00:00'));return '<td>'+esc(val??'')+'</td>';}).join('')+'<td>'+(canEdit()?'<button class="danger" onclick="deleteRecord(\''+s.table+'\',\''+r.id+'\')">Delete</button>':'')+'</td></tr>').join('')+'</tbody></table>'+(rows.length?'':'<p>No records yet.</p>')+'</div>';}
-function openModal(html){$('modalBox').innerHTML=html;$('modal').classList.remove('hidden');}function closeModal(){$('modal').classList.add('hidden');}
-function recordForm(kind){try{requireEdit();const s=SPECS[kind];openModal('<h2>Add '+s.title+'</h2><form id="recordForm"><div class="row">'+s.fields.map(f=>'<div><label for="f_'+f.key+'">'+esc(f.label)+(f.required?' *':'')+'</label>'+(f.type==='select'?'<select id="f_'+f.key+'">'+f.options.map(x=>'<option>'+esc(x)+'</option>').join('')+'</select>':f.type==='scrip'?'<input id="scripSearch" placeholder="Type 3 letters: name, symbol or ISIN" autocomplete="off"><input id="f_instrument_id" type="hidden"><div id="suggestions" class="suggest hidden"></div><div id="selection" class="muted"></div>':'<input id="f_'+f.key+'" type="'+f.type+'" '+(f.type==='number'?'step="any" min="0"':'')+' '+(f.required?'required':'')+' '+(f.type==='date'&&f.key!=='maturity_date'?'value="'+today()+'"':'')+'>')+'</div>').join('')+'</div><div class="actions"><button type="submit">Save</button><button type="button" class="ghost" onclick="closeModal()">Cancel</button></div><div id="formMsg" class="notice" role="status"></div></form>');if(kind==='portfolio'){$('scripSearch').oninput=()=>{const q=$('scripSearch').value.trim().toLowerCase(),box=$('suggestions');$('f_instrument_id').value='';$('selection').textContent='';box.replaceChildren();box.classList.toggle('hidden',q.length<3);if(q.length<3)return;const found=INSTRUMENTS.filter(i=>[i.name,i.symbol,i.isin].some(x=>String(x||'').toLowerCase().includes(q))).slice(0,30);if(!found.length)box.textContent='No match among '+INSTRUMENTS.length+' loaded scrips. Check Market Data import results.';found.forEach(i=>{const b=document.createElement('button');b.type='button';b.textContent=`${i.symbol} — ${i.name} · ${i.isin||''}`;b.onclick=()=>{$('f_instrument_id').value=i.id;$('scripSearch').value=i.symbol;$('selection').textContent='Selected: '+i.name;box.classList.add('hidden');};box.appendChild(b);});};}if(kind==='fixed')$('f_investment_type').onchange=()=>{if($('f_investment_type').value==='Recurring Deposit'){$('f_interest_type').value='Recurring Deposit';$('f_payout').value='Monthly';}};$('recordForm').onsubmit=async e=>{e.preventDefault();const b=e.submitter;b.disabled=true;try{const rec={};s.fields.forEach(f=>rec[f.key]=f.type==='number'?numberValue($('f_'+f.key).value):$('f_'+f.key).value.trim());await saveInvestment(kind,rec);closeModal();await render();}catch(err){status('formMsg',err.message,true);}finally{b.disabled=false;}};}catch(e){status('global',e.message,true);}}
-function debtProjection(r){const p=r.principal,rate=r.rate/100,months=r.tenure_years*12+r.tenure_months+r.tenure_days/30,t=r.tenure_years+r.tenure_months/12+r.tenure_days/365;if(t<=0)throw new Error('Debt tenure must be greater than zero.');let principal=p,amount;if(r.interest_type==='Recurring Deposit'){const n=Math.max(1,Math.round(months));principal=p*n;amount=0;for(let j=1;j<=n;j++)amount+=p*Math.pow(1+rate/12,j);}else if(r.interest_type==='Cumulative'){const n={Monthly:12,Quarterly:4,'Half-Yearly':2,Annually:1,Maturity:1}[r.payout];amount=p*Math.pow(1+rate/n,n*t);}else amount=p+p*rate*t;const dt=new Date(r.start_date+'T12:00:00');dt.setFullYear(dt.getFullYear()+r.tenure_years);dt.setMonth(dt.getMonth()+r.tenure_months);dt.setDate(dt.getDate()+r.tenure_days);const maturity=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;const n={Monthly:12,Quarterly:4,'Half-Yearly':2,Annually:1}[r.payout]||0;return {interest_amount:amount-principal,interest_per_year:(amount-principal)/t,interest_per_period:n?(r.interest_type==='Fixed Payout'?p*rate/n:(amount-principal)/(n*t)):0,maturity_value:amount,maturity_date:maturity};}
-async function saveInvestment(kind,r){requireEdit();const spec=SPECS[kind];for(const f of spec.fields){if(f.required&&(r[f.key]===''||r[f.key]==null))throw new Error(f.label+' is required.');if(f.options&&r[f.key]&&!f.options.includes(r[f.key]))throw new Error('Invalid '+f.label+': '+r[f.key]);if(f.type==='date')r[f.key]=r[f.key]?isoDate(r[f.key]):null;if(f.type==='number'){r[f.key]=numberValue(r[f.key]);if(r[f.key]<0)throw new Error(f.label+' cannot be negative.');}}
-if(kind==='portfolio'){if(!instrument(r.instrument_id))throw new Error('Select a scrip from the suggestions.');if(r.quantity<=0)throw new Error('Quantity must be positive.');}
-if(kind==='fixed'){if(r.principal<=0)throw new Error('Principal must be positive.');['tenure_years','tenure_months','tenure_days'].forEach(k=>{if(!Number.isInteger(r[k]))throw new Error('Tenure fields must be whole numbers.');});Object.assign(r,debtProjection(r),{status:'Active'});}
-if(kind==='insurance'){r.annualized_premium=r.premium*({Monthly:12,Quarterly:4,'Half-Yearly':2,Yearly:1,Single:1}[r.premium_frequency]);r.status='Active';}
-r.household_id=HOUSEHOLD;r.owner_email=USER.email;await checked(client.from(spec.table).insert(r));}
-async function deleteRecord(table,id){try{requireEdit();if(!Object.values(SPECS).some(s=>s.table===table))throw new Error('Invalid table.');if(!confirm('Delete this record?'))return;const data=await checked(client.from(table).delete().eq('id',id).eq('household_id',HOUSEHOLD).select('id'));if(!data?.length)throw new Error('No row deleted. Check your permissions.');await render();}catch(e){status('global',e.message,true);}}
-function numberValue(v){if(v===''||v==null)return 0;if(typeof v==='number'){if(!Number.isFinite(v))throw new Error('Invalid number.');return v;}const parts=new Intl.NumberFormat(locale).formatToParts(12345.6),group=parts.find(p=>p.type==='group')?.value,decimal=parts.find(p=>p.type==='decimal')?.value||'.';let s=String(v).trim().replace(/[₹\s\u00a0]/g,'');if(group)s=s.split(group).join('');if(decimal!=='.')s=s.replace(decimal,'.');const n=Number(s);if(!Number.isFinite(n))throw new Error('Invalid number: '+v);return n;}
-function isoDate(v){if(v instanceof Date&&!isNaN(v))return `${v.getFullYear()}-${String(v.getMonth()+1).padStart(2,'0')}-${String(v.getDate()).padStart(2,'0')}`;const s=String(v).trim();let y,m,d;if(/^\d{4}-\d{2}-\d{2}$/.test(s)){[y,m,d]=s.split('-').map(Number);}else{const a=s.split(/[\/.-]/);if(a.length!==3)throw new Error('Use a real Excel date or YYYY-MM-DD: '+s);const order=new Intl.DateTimeFormat(locale).formatToParts(new Date(2020,10,22)).filter(p=>['day','month','year'].includes(p.type)).map(p=>p.type);const o={};order.forEach((key,i)=>o[key]=Number(a[i]));y=o.year;m=o.month;d=o.day;}const dt=new Date(y,m-1,d);if(y<1900||dt.getFullYear()!==y||dt.getMonth()!==m-1||dt.getDate()!==d)throw new Error('Invalid or ambiguous date: '+s);return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
-function market(){$('view').innerHTML='<h2>Market Data</h2><p>Loaded '+INSTRUMENTS.length+' scrips and '+Object.keys(PRICES).length+' prices across all batches.</p><div class="card"><h3>NSE equity master</h3><p>Choose EQUITY_L.csv. All successfully saved scrips become searchable in Add holding.</p><input id="masterFile" type="file" accept=".csv"><button onclick="importNSE(\'master\',this)">Upload scrip details</button><div id="masterMsg" class="notice" role="status"></div></div><div class="card"><h3>NSE bhavcopy / price list</h3><p>Choose the extracted CSV, not ZIP. No filename-date validation.</p><label>Price field to use</label><select id="priceMode"><option value="close">File closing price (CLOSE / ClsPric)</option><option value="previous">Previous close (PREVCLOSE / PrvsClsgPric)</option></select><p class="muted">A previous-day file’s CLOSE is that day’s end-of-day price. PREVCLOSE refers to the preceding session, so the two fields are not interchangeable.</p><input id="priceFile" type="file" accept=".csv"><button onclick="importNSE(\'price\',this)">Upload prices</button><div id="priceMsg" class="notice" role="status"></div></div><div class="card"><h3>Stored price sample (first 100)</h3><table><tr><th>Symbol</th><th>Price</th><th>Source</th></tr>'+Object.values(PRICES).slice(0,100).map(p=>'<tr><td>'+esc(p.symbol)+'</td><td>'+fmt(p.price)+'</td><td>'+esc(p.source)+'</td></tr>').join('')+'</table></div>';}
-async function saveScripData(data){requireEdit();const existing=INSTRUMENTS.find(x=>x.symbol===data.symbol);if(existing){const update={};['name','isin'].forEach(k=>{if(data[k])update[k]=data[k];});if(data.type)update.type=data.type;if(!Object.keys(update).length)return existing;const rows=await checked(client.from('instruments').update(update).eq('id',existing.id).eq('household_id',HOUSEHOLD).select('*'));if(!rows?.length)throw new Error('Scrip update blocked by security policy.');Object.assign(existing,rows[0]);return existing;}const payload={household_id:HOUSEHOLD,type:data.type||'Equity',name:data.name||data.symbol,symbol:data.symbol,isin:data.isin||'',exchange:'NSE',issuer:data.name||data.symbol,category:'NSE Import'};const row=await checked(client.from('instruments').insert(payload).select().single());INSTRUMENTS.push(row);return row;}
-async function manualScrip(){try{requireEdit();const symbol=$('symbol').value.trim().toUpperCase(),name=$('name').value.trim();if(!symbol||!name)throw new Error('Symbol and name are required.');await saveScripData({symbol,name,isin:$('isin').value.trim().toUpperCase(),type:$('scripType').value});status('scripMsg','Scrip saved and ready for holding search.');}catch(e){status('scripMsg',e.message,true);}}
-function parseCSV(text){text=text.replace(/^\uFEFF/,'');if(/^\s*</.test(text))throw new Error('This looks like an HTML page, not a CSV.');let delimiter=',';const line=text.split(/\r?\n/).find(x=>x.trim())||'';if(/^sep=./i.test(line)){delimiter=line.slice(4,5);text=text.slice(text.indexOf('\n')+1);}else{const counts=[',',';','\t'].map(d=>[d,line.split(d).length]);counts.sort((a,b)=>b[1]-a[1]);delimiter=counts[0][0];}let rows=[],row=[],cur='',quoted=false;for(let i=0;i<text.length;i++){let c=text[i];if(c==='"'){if(quoted&&text[i+1]==='"'){cur+='"';i++;}else quoted=!quoted;}else if(c===delimiter&&!quoted){row.push(cur.trim());cur='';}else if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&text[i+1]==='\n')i++;row.push(cur.trim());if(row.some(Boolean))rows.push(row);row=[];cur='';}else cur+=c;}if(quoted)throw new Error('CSV contains an unclosed quoted value.');row.push(cur.trim());if(row.some(Boolean))rows.push(row);if(rows.length<2)throw new Error('No CSV data rows found.');const headers=rows.shift();return rows.map((r,i)=>{if(r.length>headers.length)throw new Error('CSV row '+(i+2)+' has more columns than the header.');return Object.fromEntries(headers.map((h,j)=>[h,r[j]||'']));});}
-const norm=s=>String(s).toLowerCase().replace(/[^a-z0-9]/g,'');function pick(r,...keys){for(const key of keys){const found=Object.keys(r).find(k=>norm(k)===norm(key));if(found!==undefined&&r[found]!==''&&r[found]!=null)return r[found];}return '';}
-async function importNSE(mode,button){const id=mode==='master'?'masterMsg':'priceMsg';try{requireEdit();if(busy)throw new Error('Another import is running.');const file=$(mode==='master'?'masterFile':'priceFile').files[0];if(!file)throw new Error('Choose a CSV file first.');if(!/\.csv$/i.test(file.name))throw new Error('Select an extracted .csv file.');busy=true;button.disabled=true;status(id,'Reading '+file.name+'…');const rows=parseCSV(await file.text());if(!Object.keys(rows[0]).some(k=>['symbol','tckrsymb','tradingsymbol'].includes(norm(k))))throw new Error('SYMBOL / TckrSymb column not found.');const priceMode=mode==='price'?$('priceMode').value:null;let saved=0,skipped=0,failed=0,errors=[];for(let index=0;index<rows.length;index++){const r=rows[index];try{const symbol=String(pick(r,'SYMBOL','TckrSymb','TRADING SYMBOL')).trim().toUpperCase();if(!symbol){skipped++;continue;}const series=String(pick(r,'SERIES','SctySrs')).trim().toUpperCase();if(mode==='price'&&series&&!['EQ','BE'].includes(series)){skipped++;continue;}const name=String(pick(r,'NAME OF COMPANY','COMPANY NAME','SECURITY NAME','FinInstrmNm','NAME')).trim(),isin=String(pick(r,'ISIN','ISIN NUMBER','ISIN CODE')).trim().toUpperCase();if(mode==='master'){await saveScripData({symbol,name,isin});}else{const raw=priceMode==='previous'?pick(r,'PREVCLOSE','PREV CLOSE','PREVIOUS CLOSE','PrvsClsgPric'):pick(r,'CLOSE','CLOSE PRICE','ClsPric');if(raw==='')throw new Error('Selected price column is absent or blank.');const price=Number(String(raw).replace(/,/g,''));if(!Number.isFinite(price)||price<=0)throw new Error('Invalid price.');await saveScripData({symbol,name,isin});const payload={household_id:HOUSEHOLD,symbol,price,source:'NSE '+(priceMode==='previous'?'previous close':'close')+' · '+file.name,fetched_at:new Date().toISOString()};const data=await checked(client.from('market_prices').upsert(payload,{onConflict:'household_id,symbol'}).select().single());PRICES[symbol]=data;}saved++;}catch(e){failed++;if(errors.length<8)errors.push('Row '+(index+2)+': '+e.message);if(/recursion|permission|row.level|does not exist|schema cache/i.test(e.message)){errors.push('Stopped early: fix database setup/policies before retrying.');break;}}if(index%20===0){status(id,`Processing ${index+1}/${rows.length}: ${saved} saved, ${failed} failed…`);await new Promise(r=>setTimeout(r,0));}}status(id,`${saved} successfully saved; ${skipped} skipped; ${failed} failed.\n${errors.join('\n')}\n${INSTRUMENTS.length} scrips now available for search.`,failed>0);}catch(e){status(id,e.message,true);}finally{busy=false;button.disabled=false;}}
-async function excelLibrary(){if(window.ExcelJS)return window.ExcelJS;status('importMsg','Loading Excel support…');await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js';script.onload=resolve;script.onerror=()=>reject(new Error('Excel library could not load. Check internet/CDN access.'));document.head.appendChild(script);});if(!window.ExcelJS)throw new Error('Excel library unavailable.');return window.ExcelJS;}
-const SHEETS={portfolio:'Equity',fixed:'Debt',insurance:'Insurance',assets:'Other Assets'};
-function bulk(){$('view').innerHTML='<h2>Bulk Import</h2><div class="card"><h3>Multi-tab Excel template</h3><p>Separate Instructions, Equity, Debt, Insurance and Other Assets tabs. Dropdown lists are supplied for types and frequencies. Input sheets are blank: sample investments will not accidentally be imported.</p><p class="muted">Browser locale: '+esc(locale)+'. Display follows browser regional preferences, which may differ from Windows. Excel uses local date and number display; real numeric/date cells are recommended. Text dates follow the browser order; YYYY-MM-DD is always accepted.</p><button onclick="downloadTemplateExcel(this)">Download Excel template</button></div><div class="card"><h3>Upload filled workbook</h3><input id="importFile" type="file" accept=".xlsx"><p><small>New investment rows are appended. Uploading the same workbook twice creates duplicate holdings, debt, insurance and assets. Scrip details are matched by symbol.</small></p><button onclick="importTemplateExcel(this)">Import workbook</button><div id="importMsg" class="notice" role="status"></div></div>';}
-function downloadBlob(buf,name,type){const url=URL.createObjectURL(new Blob([buf],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);}
-async function downloadTemplateExcel(button){button.disabled=true;try{const Excel=await excelLibrary(),wb=new Excel.Workbook();wb.creator='InvestTrack';const instructions=wb.addWorksheet('Instructions');instructions.getColumn(1).width=115;['InvestTrack — Investment Import','Use the category tabs. Headers are in row 1; enter data from row 2.','Do not rename the sheets or column headers. Blank rows are skipped.','Cells with dropdowns: select a listed investment type/frequency.','Use real Excel dates and numeric cells. Format follows your Excel regional settings.','Text dates: use YYYY-MM-DD to avoid day/month ambiguity.','Equity: Name, Symbol, Quantity, Average purchase cost / NAV and Purchase date are required.','Debt: select type, enter principal/rate/start date and a positive tenure. RD principal is monthly instalment.','Insurance: policy number is text. Preserve leading zeroes. Single premium is displayed as entered, not recurring income.','No example investment rows are included. Save as .xlsx.','Investment imports append records; do not upload the same workbook twice.','Debt calculations are estimates, not bank/product-specific maturity guarantees.','Household membership and database RLS must be configured separately.'].forEach((line,i)=>{const r=instructions.addRow([line]);r.font={bold:i===0,size:i===0?18:11};r.alignment={wrapText:true};r.height=i===0?32:32;});const lists=wb.addWorksheet('Lists');let listCol=0;for(const [kind,name]of Object.entries(SHEETS)){const fields=kind==='portfolio'?[FIELD('name','Name','text',null,true),FIELD('symbol','Symbol','text',null,true),FIELD('isin','ISIN'),FIELD('type','Type','select',TYPES,true),...SPECS.portfolio.fields.filter(f=>f.type!=='scrip')]:SPECS[kind].fields;const sheet=wb.addWorksheet(name,{views:[{state:'frozen',ySplit:1}]});sheet.columns=fields.map(f=>({header:f.label,key:f.key,width:Math.min(36,Math.max(18,f.label.length+3))}));sheet.autoFilter={from:{row:1,column:1},to:{row:501,column:fields.length}};sheet.getRow(1).height=35;sheet.getRow(1).eachCell(c=>{c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF19385B'}};c.font={bold:true,color:{argb:'FFFFFFFF'}};c.alignment={wrapText:true,vertical:'middle'};});fields.forEach((f,col)=>{let listLetter;if(f.options){listCol++;listLetter=lists.getColumn(listCol).letter;f.options.forEach((v,i)=>lists.getCell(i+1,listCol).value=v);}for(let r=2;r<=501;r++){const cell=sheet.getCell(r,col+1);cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:r%2?'FFF0F5FB':'FFFFFFFF'}};cell.font={color:{argb:'FF19314D'}};if(f.options)cell.dataValidation={type:'list',allowBlank:!f.required,formulae:[`'Lists'!$${listLetter}$1:$${listLetter}$${f.options.length}`],showErrorMessage:true,errorTitle:'Select a listed value',error:'Choose a value from the dropdown.'};if(f.type==='date')cell.numFmt='[$-F800]dddd, mmmm dd, yyyy';else if(f.type==='number')cell.numFmt='#,##0.00';else cell.numFmt='@';}});}lists.state='veryHidden';downloadBlob(await wb.xlsx.writeBuffer(),'InvestTrack_Import_Template.xlsx','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');status('importMsg','Template downloaded. Enter data from row 2.');}catch(e){status('importMsg',e.message,true);}finally{button.disabled=false;}}
-function excelCell(cell){let v=cell.value;if(v&&typeof v==='object'&&!(v instanceof Date)){if('formula'in v||'sharedFormula'in v)throw new Error('Use values, not formulas, in import cells.');if(v.richText)return v.richText.map(x=>x.text).join('');if(v.text)return v.text;}return v??'';}
-async function importTemplateExcel(button){button.disabled=true;try{requireEdit();if(busy)throw new Error('Another import is running.');const file=$('importFile').files[0];if(!file||!/\.xlsx$/i.test(file.name))throw new Error('Choose an .xlsx workbook.');const Excel=await excelLibrary(),wb=new Excel.Workbook();await wb.xlsx.load(await file.arrayBuffer());if(!confirm('Import workbook? Investment rows will be added. Repeated uploads can create duplicates.'))return;busy=true;await loadInstruments();let saved=0,failed=0,errors=[],recognised=0;for(const [kind,name]of Object.entries(SHEETS)){const sheet=wb.getWorksheet(name);if(!sheet)continue;recognised++;const header={};sheet.getRow(1).eachCell((cell,col)=>header[col]=norm(excelCell(cell)));for(let r=2;r<=sheet.rowCount;r++){try{const obj={};for(const [col,key]of Object.entries(header))obj[key]=excelCell(sheet.getCell(r,Number(col)));if(!Object.values(obj).some(v=>v!==''&&v!=null))continue;let rec={};for(const f of SPECS[kind].fields){if(f.type==='scrip')continue;const value=obj[norm(f.label)]??obj[norm(f.key)]??'';rec[f.key]=f.options?(value||f.options[0]):f.type==='number'?numberValue(value):value;}if(kind==='portfolio'){const symbol=String(obj.symbol||'').trim().toUpperCase(),name=String(obj.name||'').trim();if(!symbol||!name)throw new Error('Name and Symbol are required.');const i=await saveScripData({symbol,name,isin:String(obj.isin||'').trim().toUpperCase(),type:obj.type||'Equity'});rec.instrument_id=i.id;}await saveInvestment(kind,rec);saved++;}catch(e){failed++;if(errors.length<10)errors.push(name+' row '+r+': '+e.message);}if(r%20===0)status('importMsg',`${saved} saved; ${failed} failed…`);}}if(!recognised)throw new Error('No recognised category tabs found. Download the new template.');status('importMsg',`${saved} records added; ${failed} rows failed.\n${errors.join('\n')}`,failed>0);}catch(e){status('importMsg',e.message,true);}finally{busy=false;button.disabled=false;}}
-async function users(){const rows=await allRows('household_members',{household_id:HOUSEHOLD});$('view').innerHTML='<h2>Household Users</h2><p class="muted">Add approved users through Supabase Table Editor after their first Google sign-in. Use their Auth user ID and this household ID: '+esc(HOUSEHOLD)+'. Membership checks are enforced by database RLS, not just the login screen.</p><div class="card"><table><tr><th>Email</th><th>Role</th><th></th></tr>'+rows.map(m=>'<tr><td>'+esc(m.email)+'</td><td>'+esc(m.role)+'</td><td>'+(ROLE==='Owner'&&m.user_id!==USER.id?'<button onclick="changeRole(\''+m.user_id+'\',\''+(m.role==='Viewer'?'Editor':'Viewer')+'\')">Make '+(m.role==='Viewer'?'Editor':'Viewer')+'</button> <button class="danger" onclick="removeMember(\''+m.user_id+'\')">Remove</button>':'')+'</td></tr>').join('')+'</table></div>';}
-async function changeRole(uid,role){try{if(ROLE!=='Owner')throw new Error('Owner access required.');const data=await checked(client.from('household_members').update({role}).eq('household_id',HOUSEHOLD).eq('user_id',uid).select('id'));if(!data?.length)throw new Error('Role change blocked by database policy.');await render();}catch(e){status('global',e.message,true);}}
-async function removeMember(uid){try{if(ROLE!=='Owner')throw new Error('Owner access required.');if(!confirm('Remove this household member?'))return;const data=await checked(client.from('household_members').delete().eq('household_id',HOUSEHOLD).eq('user_id',uid).select('id'));if(!data?.length)throw new Error('Removal blocked by database policy.');await render();}catch(e){status('global',e.message,true);}}
-$('signIn').addEventListener('click',signInWithGoogle);$('signOut').addEventListener('click',signOut);$('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});window.addEventListener('unhandledrejection',e=>{const id=$('app').classList.contains('hidden')?'loginMsg':'global';status(id,e.reason?.message||String(e.reason),true);});init();
-</script></body></html>
+"use strict";
+
+const SUPABASE_URL =
+  "https://oqgtklevnwqnoafkzrcz.supabase.co";
+
+const SUPABASE_ANON_KEY =
+  "sb_publishable_CsONgxTLUbhZca4uLVEyCw_XRyw53-b";
+
+const $ = id => document.getElementById(id);
+
+let client;
+let USER = null;
+let HOUSEHOLD = null;
+let ROLE = "Viewer";
+let currentTab = "dashboard";
+let INSTRUMENTS = [];
+let PRICES = {};
+let recordCache = [];
+let busy = false;
+
+const locale = navigator.language || "en-IN";
+
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[character]));
+}
+
+function status(id, text, error = false) {
+  const target = $(id) || $("global") || $("loginMsg");
+  if (!target) {
+    console[error ? "error" : "log"](text);
+    return;
+  }
+  target.textContent = text;
+  target.className = "notice" + (error ? " error" : "");
+}
+
+function today() {
+  const date = new Date();
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0")
+  ].join("-");
+}
+
+function money(value) {
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 2
+  }).format(Number(value) || 0);
+}
+
+function dateText(value) {
+  if (!value) return "";
+  return new Intl.DateTimeFormat(locale).format(
+    new Date(value + "T12:00:00")
+  );
+}
+
+function canEdit() {
+  return ["Owner", "Editor"].includes(ROLE);
+}
+
+function requireEditor() {
+  if (!HOUSEHOLD || !canEdit()) {
+    throw new Error("Owner or Editor access is required.");
+  }
+}
+
+async function checked(query) {
+  const result = await query;
+  if (result.error) throw new Error(result.error.message);
+  return result.data;
+}
+
+async function fetchAll(table) {
+  const rows = [];
+  let offset = 0;
+
+  while (true) {
+    const batch = await checked(
+      client.from(table)
+        .select("*")
+        .eq("household_id", HOUSEHOLD)
+        .order("id")
+        .range(offset, offset + 499)
+    );
+
+    if (!batch || batch.length === 0) break;
+
+    rows.push(...batch);
+    offset += batch.length;
+  }
+
+  return rows;
+}
+
+async function loadMarketData() {
+  const [instruments, prices] = await Promise.all([
+    fetchAll("instruments"),
+    fetchAll("market_prices")
+  ]);
+
+  INSTRUMENTS = instruments.sort((a, b) =>
+    String(a.name || "").localeCompare(String(b.name || ""))
+  );
+
+  PRICES = Object.fromEntries(
+    prices.map(row => [row.symbol, row])
+  );
+}
+
+async function signInWithGoogle() {
+  $("signIn").disabled = true;
+  status("loginMsg", "Connecting to Google…");
+
+  try {
+    if (!client) throw new Error("Supabase library is unavailable.");
+
+    const result = await client.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: location.origin + location.pathname,
+        skipBrowserRedirect: true
+      }
+    });
+
+    if (result.error) throw result.error;
+    if (!result.data?.url) throw new Error("No sign-in URL returned.");
+
+    location.assign(result.data.url);
+  } catch (error) {
+    status("loginMsg", error.message, true);
+    $("signIn").disabled = false;
+  }
+}
+
+async function init() {
+  try {
+    if (!window.supabase) {
+      throw new Error("Supabase library did not load.");
+    }
+
+    client = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+
+    const sessionResult = await client.auth.getSession();
+    if (sessionResult.error) throw sessionResult.error;
+    if (!sessionResult.data.session) return;
+
+    const userResult = await client.auth.getUser();
+    if (userResult.error) throw userResult.error;
+
+    USER = userResult.data.user;
+
+    const memberships = await checked(
+      client.from("household_members")
+        .select("household_id,role")
+        .eq("user_id", USER.id)
+    );
+
+    if (!memberships?.length) {
+      await client.auth.signOut({ scope: "local" });
+      throw new Error(
+        "This account is not authorised. Ask the Owner to add your user ID."
+      );
+    }
+
+    if (memberships.length !== 1) {
+      throw new Error(
+        "This version requires exactly one household membership per user."
+      );
+    }
+
+    HOUSEHOLD = memberships[0].household_id;
+    ROLE = memberships[0].role;
+
+    $("who").textContent = USER.email + " · " + ROLE;
+    $("login").classList.add("hidden");
+    $("app").classList.remove("hidden");
+
+    await render();
+  } catch (error) {
+    USER = null;
+    HOUSEHOLD = null;
+    $("app").classList.add("hidden");
+    $("login").classList.remove("hidden");
+    status("loginMsg", error.message, true);
+  }
+}
+
+async function signOut() {
+  if (busy) {
+    status("global", "Wait for the current operation to finish.", true);
+    return;
+  }
+
+  try {
+    const result = await client.auth.signOut({ scope: "local" });
+    if (result.error) throw result.error;
+
+    USER = null;
+    HOUSEHOLD = null;
+    ROLE = "Viewer";
+    INSTRUMENTS = [];
+    PRICES = {};
+
+    $("app").classList.add("hidden");
+    $("login").classList.remove("hidden");
+    $("signIn").disabled = false;
+
+    status("loginMsg", "Signed out.");
+  } catch (error) {
+    status("global", error.message, true);
+  }
+}
+
+const DEBT_TYPES = [
+  "Fixed Deposit",
+  "Recurring Deposit",
+  "Bond",
+  "Non-Convertible Debenture",
+  "Sovereign Gold Bond",
+  "Tax-free Bond",
+  "Corporate FD",
+  "Post Office Savings",
+  "PPF",
+  "Small Savings Scheme",
+  "Debt Mutual Fund",
+  "Other Debt Investment"
+];
+
+function field(key, label, type = "text", options = null, required = false) {
+  return { key, label, type, options, required };
+}
+
+const SPECS = {
+  equity: {
+    title: "Equity & MF",
+    table: "holdings",
+    sheet: "Equity",
+    fields: [
+      field("instrument_id", "Scrip", "scrip", null, true),
+      field("quantity", "Quantity", "number", null, true),
+      field("avg_cost", "Average cost", "number", null, true),
+      field("purchase_date", "Purchase date", "date", null, true),
+      field("platform", "Platform")
+    ]
+  },
+  debt: {
+    title: "Debt & Maturity",
+    table: "debt_investments",
+    sheet: "Debt",
+    fields: [
+      field("investment_type", "Investment type", "select", DEBT_TYPES, true),
+      field("name", "Name", "text", null, true),
+      field("principal", "Principal or RD monthly instalment", "number", null, true),
+      field("rate", "Annual rate (%)", "number", null, true),
+      field("start_date", "Start date", "date", null, true),
+      field("tenure_years", "Tenure years", "number"),
+      field("tenure_months", "Tenure months", "number"),
+      field("tenure_days", "Tenure days", "number"),
+      field("interest_type", "Interest type", "select", [
+        "Cumulative", "Fixed Payout", "Recurring Deposit"
+      ]),
+      field("payout", "Payout or compounding", "select", [
+        "Monthly", "Quarterly", "Half-Yearly", "Annually", "Maturity"
+      ]),
+      field("ifsc", "Bank IFSC")
+    ]
+  },
+  insurance: {
+    title: "Insurance",
+    table: "insurance_policies",
+    sheet: "Insurance",
+    fields: [
+      field("insurer", "Insurer", "text", null, true),
+      field("policy_name", "Policy name"),
+      field("policy_type", "Policy type", "select", [
+        "Term", "Endowment", "Money Back", "ULIP",
+        "Whole Life", "Health", "Motor", "Other"
+      ]),
+      field("insured_name", "Insured person"),
+      field("policy_number", "Policy number", "text", null, true),
+      field("coverage_amount", "Coverage amount", "number", null, true),
+      field("premium", "Premium", "number", null, true),
+      field("premium_frequency", "Premium frequency", "select", [
+        "Monthly", "Quarterly", "Half-Yearly", "Yearly", "Single"
+      ]),
+      field("start_date", "Start date", "date"),
+      field("maturity_date", "Maturity date", "date"),
+      field("nominee", "Nominee")
+    ]
+  },
+  assets: {
+    title: "Other Assets",
+    table: "other_assets",
+    sheet: "Other Assets",
+    fields: [
+      field("asset_type", "Asset type", "select", [
+        "Jewellery", "Vehicle", "Real Estate", "Electronics",
+        "Furniture", "Collectible", "Other"
+      ]),
+      field("name", "Name", "text", null, true),
+      field("description", "Description"),
+      field("purchase_date", "Purchase date", "date"),
+      field("purchase_value", "Purchase value", "number"),
+      field("current_value", "Current value", "number", null, true),
+      field("location", "Location"),
+      field("detail", "Extra detail")
+    ]
+  }
+};
+
+const TABS = [
+  ["dashboard", "Dashboard"],
+  ["equity", "Equity & MF"],
+  ["debt", "Debt & Maturity"],
+  ["insurance", "Insurance"],
+  ["assets", "Other Assets"],
+  ["market", "Market Data"],
+  ["import", "Bulk Import"],
+  ["users", "Users"]
+];
+
+async function render() {
+  if (!HOUSEHOLD) return;
+
+  $("nav").replaceChildren();
+
+  TABS.forEach(([key, title]) => {
+    const button = document.createElement("button");
+    button.textContent = title;
+    button.className = currentTab === key ? "active" : "";
+    button.disabled = busy;
+
+    button.onclick = () => {
+      if (busy) return;
+      currentTab = key;
+      render();
+    };
+
+    $("nav").appendChild(button);
+  });
+
+  $("view").innerHTML = "<p>Loading…</p>";
+
+  try {
+    await loadMarketData();
+
+    if (currentTab === "dashboard") await dashboard();
+    else if (SPECS[currentTab]) await showRecords(currentTab);
+    else if (currentTab === "market") marketScreen();
+    else if (currentTab === "import") importScreen();
+    else await usersScreen();
+  } catch (error) {
+    $("view").innerHTML =
+      '<div class="card"><h2>Unable to load</h2><p>' +
+      esc(error.message) +
+      '</p><button onclick="render()">Retry</button></div>';
+  }
+}
+
+function holdingValue(row) {
+  const instrument = INSTRUMENTS.find(i => i.id === row.instrument_id);
+  const price = Number(PRICES[instrument?.symbol]?.price);
+  return Number(row.quantity) *
+    (price > 0 ? price : Number(row.avg_cost));
+}
+
+async function dashboard() {
+  const [holdings, debt, insurance, assets] = await Promise.all([
+    fetchAll("holdings"),
+    fetchAll("debt_investments"),
+    fetchAll("insurance_policies"),
+    fetchAll("other_assets")
+  ]);
+
+  const totals = {
+    "Equity / fund valuation": holdings.reduce(
+      (sum, row) => sum + holdingValue(row), 0
+    ),
+    "Active debt principal": debt.filter(r => r.status === "Active")
+      .reduce((sum, row) => sum + Number(row.principal), 0),
+    "Annualised insurance premiums": insurance.filter(r => r.status === "Active")
+      .reduce((sum, row) => sum + Number(row.annualized_premium), 0),
+    "Other asset valuation": assets.reduce(
+      (sum, row) => sum + Number(row.current_value), 0
+    )
+  };
+
+  $("view").innerHTML =
+    '<h2>Household overview</h2><div class="grid">' +
+    Object.entries(totals).map(([name, value]) =>
+      '<div class="card"><h3>' + esc(name) +
+      '</h3><div class="value">' + money(value) + "</div></div>"
+    ).join("") +
+    '</div><div class="card">' +
+    INSTRUMENTS.length + " scrips and " +
+    Object.keys(PRICES).length + " prices loaded." +
+    '<p class="muted">Insurance premiums are not asset values. ' +
+    "These cards should not be summed as net worth. " +
+    "RD principal represents the monthly instalment in this version.</p></div>";
+}
+
+async function showRecords(kind) {
+  const spec = SPECS[kind];
+  recordCache = await fetchAll(spec.table);
+
+  let columns = spec.fields
+    .filter(f => f.type !== "scrip")
+    .map(f => [f.key, f.label]);
+
+  if (kind === "equity") {
+    columns = [
+      ["scrip", "Scrip"],
+      ...columns,
+      ["valuation", "Current value"],
+      ["gain", "Gain / loss"]
+    ];
+  }
+
+  if (kind === "debt") {
+    columns.push(
+      ["interest_amount", "Projected interest"],
+      ["maturity_date", "Maturity date"],
+      ["maturity_value", "Projected total receipts"]
+    );
+  }
+
+  const rows = recordCache.map((record, index) => {
+    const cells = columns.map(([key]) => {
+      let value = record[key];
+
+      if (key === "scrip") {
+        const instrument = INSTRUMENTS.find(
+          item => item.id === record.instrument_id
+        );
+        value = instrument
+          ? instrument.symbol + " — " + instrument.name
+          : "Unknown scrip";
+      } else if (key === "valuation") {
+        value = money(holdingValue(record));
+      } else if (key === "gain") {
+        value = money(
+          holdingValue(record) - record.quantity * record.avg_cost
+        );
+      } else if (/date$/.test(key)) {
+        value = dateText(value);
+      } else if ([
+        "avg_cost", "principal", "premium", "coverage_amount",
+        "purchase_value", "current_value", "interest_amount", "maturity_value"
+      ].includes(key)) {
+        value = money(value);
+      }
+
+      return "<td>" + esc(value ?? "") + "</td>";
+    }).join("");
+
+    return "<tr>" + cells + "<td>" +
+      (canEdit()
+        ? '<div class="actions"><button onclick="recordForm(\'' +
+          kind + "'," + index + ')">Edit</button>' +
+          '<button class="danger" onclick="deleteRecord(\'' +
+          kind + "'," + index + ')">Delete</button></div>'
+        : "") +
+      "</td></tr>";
+  }).join("");
+
+  $("view").innerHTML =
+    "<h2>" + spec.title + "</h2>" +
+    (canEdit()
+      ? '<div class="actions"><button onclick="recordForm(\'' +
+        kind + '\')">+ Add record</button></div>'
+      : "") +
+    '<div class="card"><table><tr>' +
+    columns.map(c => "<th>" + esc(c[1]) + "</th>").join("") +
+    "<th>Actions</th></tr>" + rows +
+    "</table>" + (!recordCache.length ? "<p>No records.</p>" : "") +
+    "</div>";
+}
+
+function closeModal() {
+  $("modal").classList.add("hidden");
+}
+
+function recordForm(kind, index = null) {
+  try {
+    requireEditor();
+
+    const spec = SPECS[kind];
+    const original = index === null ? null : recordCache[index];
+
+    if (index !== null && !original) {
+      throw new Error("Record not found. Reload the page.");
+    }
+
+    $("modalBox").innerHTML =
+      "<h2>" + (original ? "Edit " : "Add ") + spec.title + "</h2>" +
+      '<form id="recordForm"><div class="row">' +
+      spec.fields.map(f => {
+        let control;
+
+        if (f.type === "scrip") {
+          control =
+            '<input id="scripSearch" autocomplete="off" ' +
+            'placeholder="Type 3 letters: name, symbol or ISIN">' +
+            '<input id="f_instrument_id" type="hidden">' +
+            '<div id="suggestions" class="suggest hidden"></div>' +
+            '<small id="selection"></small>';
+        } else if (f.type === "select") {
+          control = '<select id="f_' + f.key + '">' +
+            f.options.map(option =>
+              "<option>" + esc(option) + "</option>"
+            ).join("") + "</select>";
+        } else {
+          control =
+            '<input id="f_' + f.key + '" type="' + f.type + '"' +
+            (f.type === "number" ? ' step="any" min="0"' : "") +
+            (f.required ? " required" : "") + ">";
+        }
+
+        return "<div><label>" + esc(f.label) +
+          (f.required ? " *" : "") + "</label>" + control + "</div>";
+      }).join("") +
+      '</div><div class="actions"><button type="submit">Save changes</button>' +
+      '<button type="button" class="ghost" onclick="closeModal()">Cancel</button>' +
+      '</div><div id="formMsg" class="notice" role="status"></div></form>';
+
+    spec.fields.forEach(f => {
+      const input = $("f_" + f.key);
+      const defaultValue = f.type === "select"
+        ? f.options[0]
+        : f.type === "date" && f.key !== "maturity_date"
+          ? today()
+          : "";
+
+      input.value = original?.[f.key] ?? defaultValue;
+    });
+
+    if (kind === "equity") {
+      const selected = INSTRUMENTS.find(
+        i => i.id === original?.instrument_id
+      );
+
+      if (selected) {
+        $("scripSearch").value = selected.symbol;
+        $("selection").textContent = "Selected: " + selected.name;
+      }
+
+      $("scripSearch").oninput = () => {
+        const query = $("scripSearch").value.trim().toLowerCase();
+        const box = $("suggestions");
+
+        $("f_instrument_id").value = "";
+        $("selection").textContent = "";
+        box.replaceChildren();
+        box.classList.toggle("hidden", query.length < 3);
+
+        if (query.length < 3) return;
+
+        const matches = INSTRUMENTS.filter(item =>
+          [item.name, item.symbol, item.isin].some(value =>
+            String(value || "").toLowerCase().includes(query)
+          )
+        ).slice(0, 30);
+
+        if (!matches.length) {
+          box.textContent =
+            "No match among " + INSTRUMENTS.length +
+            " loaded scrips. Check the CSV import result.";
+        }
+
+        matches.forEach(item => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.textContent =
+            item.symbol + " — " + item.name + " · " + (item.isin || "");
+
+          button.onclick = () => {
+            $("f_instrument_id").value = item.id;
+            $("scripSearch").value = item.symbol;
+            $("selection").textContent = "Selected: " + item.name;
+            box.classList.add("hidden");
+          };
+
+          box.appendChild(button);
+        });
+      };
+    }
+
+    $("recordForm").onsubmit = async event => {
+      event.preventDefault();
+      const button = event.submitter;
+      button.disabled = true;
+
+      try {
+        const values = {};
+        spec.fields.forEach(f => {
+          values[f.key] = $("f_" + f.key).value;
+        });
+
+        await saveInvestment(kind, values, original?.id);
+        closeModal();
+        await render();
+      } catch (error) {
+        status("formMsg", error.message, true);
+      } finally {
+        button.disabled = false;
+      }
+    };
+
+    $("modal").classList.remove("hidden");
+  } catch (error) {
+    status("global", error.message, true);
+  }
+}
+
+function numberValue(value) {
+  if (value === "" || value == null) return 0;
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+
+  const parts = new Intl.NumberFormat(locale).formatToParts(12345.6);
+  const group = parts.find(p => p.type === "group")?.value;
+  const decimal = parts.find(p => p.type === "decimal")?.value || ".";
+
+  let text = String(value).replace(/[₹\s]/g, "");
+  if (group) text = text.split(group).join("");
+  if (decimal !== ".") text = text.replace(decimal, ".");
+
+  const number = Number(text);
+  if (!Number.isFinite(number)) {
+    throw new Error("Invalid number: " + value);
+  }
+  return number;
+}
+
+function isoDate(value) {
+  if (value instanceof Date && !isNaN(value)) {
+    return [
+      value.getFullYear(),
+      String(value.getMonth() + 1).padStart(2, "0"),
+      String(value.getDate()).padStart(2, "0")
+    ].join("-");
+  }
+
+  const text = String(value || "").trim();
+  if (!text) return null;
+
+  let year, month, day;
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) {
+    [year, month, day] = text.split("-").map(Number);
+  } else {
+    const values = text.split(/[\/.-]/);
+    const order = new Intl.DateTimeFormat(locale)
+      .formatToParts(new Date(2020, 10, 22))
+      .filter(p => ["year", "month", "day"].includes(p.type))
+      .map(p => p.type);
+
+    if (values.length !== 3) {
+      throw new Error("Use an Excel date or YYYY-MM-DD.");
+    }
+
+    const mapped = {};
+    order.forEach((key, i) => mapped[key] = Number(values[i]));
+    year = mapped.year;
+    month = mapped.month;
+    day = mapped.day;
+  }
+
+  const date = new Date(year, month - 1, day);
+
+  if (
+    year < 1900 ||
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    throw new Error("Invalid date: " + text);
+  }
+
+  return year + "-" +
+    String(month).padStart(2, "0") + "-" +
+    String(day).padStart(2, "0");
+}
+
+function debtProjection(record) {
+  const years =
+    record.tenure_years +
+    record.tenure_months / 12 +
+    record.tenure_days / 365;
+
+  if (years <= 0) throw new Error("Enter a positive debt tenure.");
+
+  const principal = record.principal;
+  const rate = record.rate / 100;
+  let contributed = principal;
+  let total;
+
+  if (record.interest_type === "Recurring Deposit") {
+    const months = Math.max(1, Math.round(years * 12));
+    contributed = principal * months;
+    total = 0;
+
+    for (let month = 1; month <= months; month++) {
+      total += principal * Math.pow(1 + rate / 12, month);
+    }
+  } else if (record.interest_type === "Cumulative") {
+    const frequency = {
+      Monthly: 12, Quarterly: 4,
+      "Half-Yearly": 2, Annually: 1, Maturity: 1
+    }[record.payout];
+
+    total = principal * Math.pow(
+      1 + rate / frequency, frequency * years
+    );
+  } else {
+    total = principal + principal * rate * years;
+  }
+
+  const maturity = new Date(record.start_date + "T12:00:00");
+  maturity.setFullYear(maturity.getFullYear() + record.tenure_years);
+  maturity.setMonth(maturity.getMonth() + record.tenure_months);
+  maturity.setDate(maturity.getDate() + record.tenure_days);
+
+  const periods = {
+    Monthly: 12, Quarterly: 4,
+    "Half-Yearly": 2, Annually: 1
+  }[record.payout] || 0;
+
+  return {
+    interest_amount: total - contributed,
+    interest_per_year: (total - contributed) / years,
+    interest_per_period: periods
+      ? record.interest_type === "Fixed Payout"
+        ? principal * rate / periods
+        : (total - contributed) / (periods * years)
+      : 0,
+    maturity_date: isoDate(maturity),
+    maturity_value: total
+  };
+}
+
+async function saveInvestment(kind, input, id = null) {
+  requireEditor();
+
+  const spec = SPECS[kind];
+  const record = {};
+
+  for (const f of spec.fields) {
+    let value = input[f.key] ?? "";
+
+    if (f.required && (value === "" || value == null)) {
+      throw new Error(f.label + " is required.");
+    }
+
+    if (f.type === "number") {
+      value = numberValue(value);
+      if (value < 0) throw new Error(f.label + " cannot be negative.");
+    } else if (f.type === "date") {
+      value = isoDate(value);
+    } else {
+      value = String(value).trim();
+    }
+
+    if (f.options && !f.options.includes(value)) {
+      throw new Error("Choose a valid " + f.label + ".");
+    }
+
+    record[f.key] = value;
+  }
+
+  if (kind === "equity") {
+    if (!INSTRUMENTS.some(i => i.id === record.instrument_id)) {
+      throw new Error("Select a scrip from the search results.");
+    }
+    if (record.quantity <= 0) {
+      throw new Error("Quantity must be positive.");
+    }
+  }
+
+  if (kind === "debt") {
+    if (record.principal <= 0) {
+      throw new Error("Principal must be positive.");
+    }
+
+    ["tenure_years", "tenure_months", "tenure_days"].forEach(key => {
+      if (!Number.isInteger(record[key])) {
+        throw new Error("Tenure fields must be whole numbers.");
+      }
+    });
+
+    Object.assign(record, debtProjection(record));
+    if (!id) record.status = "Active";
+  }
+
+  if (kind === "insurance") {
+    const multiplier = {
+      Monthly: 12, Quarterly: 4,
+      "Half-Yearly": 2, Yearly: 1, Single: 1
+    }[record.premium_frequency];
+
+    record.annualized_premium = record.premium * multiplier;
+    if (!id) record.status = "Active";
+  }
+
+  if (id) {
+    const changed = await checked(
+      client.from(spec.table)
+        .update(record)
+        .eq("id", id)
+        .eq("household_id", HOUSEHOLD)
+        .select("id")
+    );
+
+    if (!changed?.length) {
+      throw new Error(
+        "No record was updated. Check the table's UPDATE security policy."
+      );
+    }
+  } else {
+    record.household_id = HOUSEHOLD;
+    record.owner_email = USER.email;
+
+    await checked(
+      client.from(spec.table).insert(record)
+    );
+  }
+}
+
+async function deleteRecord(kind, index) {
+  try {
+    requireEditor();
+    const record = recordCache[index];
+    if (!record) throw new Error("Record not found.");
+    if (!confirm("Delete this record?")) return;
+
+    const changed = await checked(
+      client.from(SPECS[kind].table)
+        .delete()
+        .eq("id", record.id)
+        .eq("household_id", HOUSEHOLD)
+        .select("id")
+    );
+
+    if (!changed?.length) {
+      throw new Error("Deletion blocked by the database policy.");
+    }
+
+    await render();
+  } catch (error) {
+    status("global", error.message, true);
+  }
+}
+
+function marketScreen() {
+  $("view").innerHTML = `
+    <h2>Market Data</h2>
+    <p>${INSTRUMENTS.length} scrips and
+       ${Object.keys(PRICES).length} prices loaded.</p>
+
+    <div class="card">
+      <h3>Fetch latest available NSE data</h3>
+      <label>What to update</label>
+      <select id="fetchChoice">
+        <option value="prices">End-of-day prices</option>
+        <option value="master">Scrip master</option>
+        <option value="both">Both</option>
+      </select>
+      <label>Price field</label>
+      <select id="fetchPriceField">
+        <option value="close">File closing price</option>
+        <option value="previous">Previous close</option>
+      </select>
+      <div class="actions">
+        <button onclick="fetchLatestNSE(this)">Fetch latest NSE data</button>
+      </div>
+      <p class="muted">
+        Requires the separately deployed nse-market-update Edge Function.
+        Latest means the latest available published report, not necessarily today.
+      </p>
+      <div id="fetchMsg" class="notice" role="status"></div>
+    </div>
+
+    <div class="card">
+      <h3>Upload NSE equity master</h3>
+      <input id="masterFile" type="file" accept=".csv">
+      <div class="actions">
+        <button onclick="importCSV('master',this)">Import EQUITY_L.csv</button>
+      </div>
+      <div id="masterMsg" class="notice" role="status"></div>
+    </div>
+
+    <div class="card">
+      <h3>Upload bhavcopy / prices</h3>
+      <p>Upload the extracted CSV, not a ZIP file. No filename-date validation.</p>
+      <label>Price field</label>
+      <select id="csvPriceField">
+        <option value="close">CLOSE / ClsPric</option>
+        <option value="previous">PREVCLOSE / PrvsClsgPric</option>
+      </select>
+      <input id="priceFile" type="file" accept=".csv">
+      <div class="actions">
+        <button onclick="importCSV('prices',this)">Import prices</button>
+      </div>
+      <div id="priceMsg" class="notice" role="status"></div>
+    </div>
+  `;
+}
+
+async function fetchLatestNSE(button) {
+  try {
+    requireEditor();
+    if (busy) throw new Error("Another operation is running.");
+
+    busy = true;
+    button.disabled = true;
+    status("fetchMsg", "Requesting the latest published NSE report…");
+
+    const result = await client.functions.invoke("nse-market-update", {
+      body: {
+        household_id: HOUSEHOLD,
+        choice: $("fetchChoice").value,
+        price_field: $("fetchPriceField").value
+      }
+    });
+
+    if (result.error) throw result.error;
+
+    const data = result.data;
+    if (!data || data.success !== true) {
+      throw new Error(data?.error || "The backend did not confirm an update.");
+    }
+
+    await loadMarketData();
+
+    status("fetchMsg",
+      "Backend confirmed update.\n" +
+      "Report date: " + (data.report_date || "not supplied") + "\n" +
+      "Scrips updated: " + (data.scrips_updated ?? "not supplied") + "\n" +
+      "Prices updated: " + (data.prices_updated ?? "not supplied")
+    );
+  } catch (error) {
+    status("fetchMsg",
+      "NSE fetch failed: " + error.message +
+      "\nIf nse-market-update is not deployed, use CSV upload. " +
+      "Do not place server secrets in this HTML.",
+      true
+    );
+  } finally {
+    busy = false;
+    button.disabled = false;
+  }
+}
+
+const normalise = value =>
+  String(value).toLowerCase().replace(/[^a-z0-9]/g, "");
+
+function pick(row, ...names) {
+  for (const name of names) {
+    const key = Object.keys(row).find(k =>
+      normalise(k) === normalise(name)
+    );
+    if (key !== undefined && row[key] !== "" && row[key] != null) {
+      return row[key];
+    }
+  }
+  return "";
+}
+
+function parseCSV(text) {
+  text = text.replace(/^\uFEFF/, "");
+
+  if (/^\s*</.test(text)) {
+    throw new Error("This appears to be HTML, not a CSV file.");
+  }
+
+  let delimiter = ",";
+  const first = text.split(/\r?\n/).find(line => line.trim()) || "";
+
+  if (/^sep=./i.test(first)) {
+    delimiter = first.slice(4, 5);
+    text = text.slice(text.indexOf("\n") + 1);
+  } else {
+    delimiter = [",", ";", "\t"].sort(
+      (a, b) => first.split(b).length - first.split(a).length
+    )[0];
+  }
+
+  const rows = [];
+  let row = [], value = "", quoted = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const character = text[i];
+
+    if (character === '"') {
+      if (quoted && text[i + 1] === '"') {
+        value += '"';
+        i++;
+      } else {
+        quoted = !quoted;
+      }
+    } else if (character === delimiter && !quoted) {
+      row.push(value.trim());
+      value = "";
+    } else if (/[\r\n]/.test(character) && !quoted) {
+      if (character === "\r" && text[i + 1] === "\n") i++;
+      row.push(value.trim());
+      if (row.some(Boolean)) rows.push(row);
+      row = [];
+      value = "";
+    } else {
+      value += character;
+    }
+  }
+
+  if (quoted) throw new Error("Unclosed quoted value in CSV.");
+
+  row.push(value.trim());
+  if (row.some(Boolean)) rows.push(row);
+
+  if (rows.length < 2) throw new Error("No CSV data rows found.");
+
+  const headers = rows.shift();
+
+  return rows.map((values, index) => {
+    if (values.length > headers.length) {
+      throw new Error("Too many columns in CSV row " + (index + 2));
+    }
+    return Object.fromEntries(
+      headers.map((header, i) => [header, values[i] || ""])
+    );
+  });
+}
+
+async function saveScrip(data) {
+  requireEditor();
+
+  const existing = INSTRUMENTS.find(i => i.symbol === data.symbol);
+
+  if (existing) {
+    const update = {};
+    ["name", "isin", "type"].forEach(key => {
+      if (data[key]) update[key] = data[key];
+    });
+
+    if (!Object.keys(update).length) return existing;
+
+    const rows = await checked(
+      client.from("instruments")
+        .update(update)
+        .eq("id", existing.id)
+        .eq("household_id", HOUSEHOLD)
+        .select("*")
+    );
+
+    if (!rows?.length) {
+      throw new Error("Scrip update blocked by database policy.");
+    }
+
+    Object.assign(existing, rows[0]);
+    return existing;
+  }
+
+  const inserted = await checked(
+    client.from("instruments").insert({
+      household_id: HOUSEHOLD,
+      type: data.type || "Equity",
+      symbol: data.symbol,
+      name: data.name || data.symbol,
+      isin: data.isin || "",
+      exchange: "NSE",
+      issuer: data.name || data.symbol,
+      category: "Imported"
+    }).select().single()
+  );
+
+  INSTRUMENTS.push(inserted);
+  return inserted;
+}
+
+async function importCSV(mode, button) {
+  const messageId = mode === "master" ? "masterMsg" : "priceMsg";
+
+  try {
+    requireEditor();
+    if (busy) throw new Error("Another operation is running.");
+
+    const file = $(mode === "master" ? "masterFile" : "priceFile").files[0];
+    if (!file || !/\.csv$/i.test(file.name)) {
+      throw new Error("Choose an extracted .csv file.");
+    }
+
+    busy = true;
+    button.disabled = true;
+
+    const rows = parseCSV(await file.text());
+    const priceField = mode === "prices" ? $("csvPriceField").value : null;
+
+    if (!Object.keys(rows[0]).some(key =>
+      ["symbol", "tckrsymb", "tradingsymbol"].includes(normalise(key))
+    )) {
+      throw new Error("SYMBOL or TckrSymb header not found.");
+    }
+
+    let saved = 0, skipped = 0, failed = 0;
+    const errors = [];
+
+    for (let index = 0; index < rows.length; index++) {
+      const row = rows[index];
+
+      try {
+        const symbol = String(
+          pick(row, "SYMBOL", "TckrSymb", "TRADING SYMBOL")
+        ).trim().toUpperCase();
+
+        const series = String(
+          pick(row, "SERIES", "SctySrs")
+        ).trim().toUpperCase();
+
+        if (!symbol || (
+          mode === "prices" && series && !["EQ", "BE"].includes(series)
+        )) {
+          skipped++;
+          continue;
+        }
+
+        const name = String(pick(
+          row, "NAME OF COMPANY", "COMPANY NAME",
+          "SECURITY NAME", "FinInstrmNm", "NAME"
+        )).trim();
+
+        const isin = String(pick(
+          row, "ISIN", "ISIN NUMBER", "ISIN CODE"
+        )).trim().toUpperCase();
+
+        if (mode === "master") {
+          await saveScrip({ symbol, name, isin });
+        } else {
+          const raw = priceField === "previous"
+            ? pick(row, "PREVCLOSE", "PREV CLOSE", "PREVIOUS CLOSE", "PrvsClsgPric")
+            : pick(row, "CLOSE", "CLOSE PRICE", "ClsPric");
+
+          const price = Number(String(raw).replace(/,/g, ""));
+
+          if (raw === "" || !Number.isFinite(price) || price <= 0) {
+            throw new Error("Selected price field is missing or invalid.");
+          }
+
+          await saveScrip({ symbol, name, isin });
+
+          const savedPrice = await checked(
+            client.from("market_prices").upsert({
+              household_id: HOUSEHOLD,
+              symbol,
+              price,
+              source: "NSE " + priceField + " · " + file.name,
+              fetched_at: new Date().toISOString()
+            }, { onConflict: "household_id,symbol" })
+              .select().single()
+          );
+
+          PRICES[symbol] = savedPrice;
+        }
+
+        saved++;
+      } catch (error) {
+        failed++;
+        if (errors.length < 8) {
+          errors.push("Row " + (index + 2) + ": " + error.message);
+        }
+
+        if (/recursion|permission|row.level|schema cache/i.test(error.message)) {
+          errors.push("Stopped early. Correct database policies before retrying.");
+          break;
+        }
+      }
+
+      if (index % 20 === 0) {
+        status(messageId,
+          `${index + 1}/${rows.length}: ${saved} saved; ${failed} failed…`
+        );
+        await new Promise(resolve => setTimeout(resolve, 0));
+      }
+    }
+
+    status(messageId,
+      `${saved} saved; ${skipped} skipped; ${failed} failed.\n` +
+      errors.join("\n"),
+      failed > 0
+    );
+  } catch (error) {
+    status(messageId, error.message, true);
+  } finally {
+    busy = false;
+    button.disabled = false;
+  }
+}
+
+let excelPromise;
+
+async function excelLibrary() {
+  if (window.ExcelJS) return window.ExcelJS;
+
+  if (!excelPromise) {
+    excelPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src =
+        "https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js";
+      script.onload = () => resolve(window.ExcelJS);
+      script.onerror = () => {
+        excelPromise = null;
+        reject(new Error("Excel library could not load."));
+      };
+      document.head.appendChild(script);
+    });
+  }
+
+  return excelPromise;
+}
+
+function importScreen() {
+  $("view").innerHTML = `
+    <h2>Bulk Import</h2>
+    <div class="card">
+      <h3>Excel template</h3>
+      <p>Separate category tabs, dropdown lists and blank input rows.</p>
+      <p class="muted">
+        Browser locale: ${esc(locale)}. Excel dates and numeric cells are
+        preferred. Use YYYY-MM-DD for text dates to avoid ambiguity.
+      </p>
+      <button onclick="downloadTemplate(this)">Download template</button>
+    </div>
+    <div class="card">
+      <input id="workbookFile" type="file" accept=".xlsx">
+      <p class="muted">
+        Imports add new investment records. Reimporting the same workbook
+        can create duplicates.
+      </p>
+      <button onclick="importWorkbook(this)">Import workbook</button>
+      <div id="importMsg" class="notice" role="status"></div>
+    </div>
+  `;
+}
+
+function templateFields(kind) {
+  return kind === "equity"
+    ? [
+        field("name", "Name", "text", null, true),
+        field("symbol", "Symbol", "text", null, true),
+        field("isin", "ISIN"),
+        field("type", "Type", "select", [
+          "Equity", "ETF", "Equity Mutual Fund", "Debt Mutual Fund"
+        ]),
+        ...SPECS.equity.fields.filter(f => f.type !== "scrip")
+      ]
+    : SPECS[kind].fields;
+}
+
+async function downloadTemplate(button) {
+  button.disabled = true;
+
+  try {
+    const Excel = await excelLibrary();
+    const workbook = new Excel.Workbook();
+    const instructions = workbook.addWorksheet("Instructions");
+    instructions.getColumn(1).width = 110;
+
+    [
+      "InvestTrack import template",
+      "Keep sheet names and headers unchanged. Enter data from row 2.",
+      "Blank rows are ignored. No example investments are included.",
+      "Use dropdowns for types and frequencies.",
+      "Use real Excel dates/numbers; text dates may use YYYY-MM-DD.",
+      "Policy numbers are text: preserve leading zeroes.",
+      "RD principal means monthly instalment.",
+      "Debt calculations are estimates, not product-specific guarantees.",
+      "Import appends investments. Do not import the same workbook twice."
+    ].forEach(text => instructions.addRow([text]));
+
+    const lists = workbook.addWorksheet("Lists");
+    let listColumn = 0;
+
+    for (const [kind, spec] of Object.entries(SPECS)) {
+      const fields = templateFields(kind);
+      const sheet = workbook.addWorksheet(spec.sheet, {
+        views: [{ state: "frozen", ySplit: 1 }]
+      });
+
+      sheet.columns = fields.map(f => ({
+        header: f.label,
+        key: f.key,
+        width: Math.max(18, Math.min(34, f.label.length + 3))
+      }));
+
+      sheet.getRow(1).height = 36;
+      sheet.getRow(1).eachCell(cell => {
+        cell.font = { bold: true, color: { argb: "FFFFFFFF" } };
+        cell.fill = {
+          type: "pattern", pattern: "solid",
+          fgColor: { argb: "FF286449" }
+        };
+        cell.alignment = { wrapText: true, vertical: "middle" };
+      });
+
+      fields.forEach((f, columnIndex) => {
+        let letter;
+
+        if (f.options) {
+          listColumn++;
+          letter = lists.getColumn(listColumn).letter;
+          f.options.forEach((option, i) => {
+            lists.getCell(i + 1, listColumn).value = option;
+          });
+        }
+
+        for (let row = 2; row <= 501; row++) {
+          const cell = sheet.getCell(row, columnIndex + 1);
+
+          cell.numFmt = f.type === "date"
+            ? "[$-F800]dddd, mmmm dd, yyyy"
+            : f.type === "number"
+              ? "#,##0.00"
+              : "@";
+
+          if (f.options) {
+            cell.dataValidation = {
+              type: "list",
+              allowBlank: true,
+              formulae: [
+                `'Lists'!$${letter}$1:$${letter}$${f.options.length}`
+              ],
+              showErrorMessage: true,
+              errorTitle: "Choose a listed value",
+              error: "Select a value from the dropdown."
+            };
+          }
+        }
+      });
+    }
+
+    lists.state = "veryHidden";
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const url = URL.createObjectURL(new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }));
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "InvestTrack_Import_Template.xlsx";
+    link.click();
+
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    status("importMsg", "Template downloaded.");
+  } catch (error) {
+    status("importMsg", error.message, true);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+function cellValue(cell) {
+  const value = cell.value;
+
+  if (value && typeof value === "object" && !(value instanceof Date)) {
+    if ("formula" in value || "sharedFormula" in value) {
+      throw new Error("Use values rather than formulas in import cells.");
+    }
+    if (value.richText) return value.richText.map(item => item.text).join("");
+    if (value.text != null) return value.text;
+  }
+
+  return value ?? "";
+}
+
+async function importWorkbook(button) {
+  button.disabled = true;
+
+  try {
+    requireEditor();
+    if (busy) throw new Error("Another operation is running.");
+
+    const file = $("workbookFile").files[0];
+    if (!file || !/\.xlsx$/i.test(file.name)) {
+      throw new Error("Choose an .xlsx workbook.");
+    }
+
+    const Excel = await excelLibrary();
+    const workbook = new Excel.Workbook();
+    await workbook.xlsx.load(await file.arrayBuffer());
+
+    if (!confirm("Import new records? Repeated imports can create duplicates.")) {
+      return;
+    }
+
+    busy = true;
+    await loadMarketData();
+
+    let saved = 0, failed = 0, recognised = 0;
+    const errors = [];
+
+    for (const [kind, spec] of Object.entries(SPECS)) {
+      const sheet = workbook.getWorksheet(spec.sheet);
+      if (!sheet) continue;
+      recognised++;
+
+      const headers = {};
+      sheet.getRow(1).eachCell((cell, column) => {
+        headers[column] = normalise(cellValue(cell));
+      });
+
+      for (let rowIndex = 2; rowIndex <= sheet.rowCount; rowIndex++) {
+        try {
+          const source = {};
+
+          for (const [column, header] of Object.entries(headers)) {
+            source[header] = cellValue(
+              sheet.getCell(rowIndex, Number(column))
+            );
+          }
+
+          if (!Object.values(source).some(v => v !== "" && v != null)) continue;
+
+          const values = {};
+
+          spec.fields.forEach(f => {
+            if (f.type === "scrip") return;
+            values[f.key] =
+              source[normalise(f.label)] ??
+              source[normalise(f.key)] ??
+              "";
+
+            if (f.options && values[f.key] === "") {
+              values[f.key] = f.options[0];
+            }
+          });
+
+          if (kind === "equity") {
+            const symbol = String(source.symbol || "").trim().toUpperCase();
+            const name = String(source.name || "").trim();
+
+            if (!symbol || !name) {
+              throw new Error("Name and Symbol are required.");
+            }
+
+            const instrument = await saveScrip({
+              symbol,
+              name,
+              isin: String(source.isin || "").trim().toUpperCase(),
+              type: source.type || "Equity"
+            });
+
+            values.instrument_id = instrument.id;
+          }
+
+          await saveInvestment(kind, values);
+          saved++;
+        } catch (error) {
+          failed++;
+          if (errors.length < 10) {
+            errors.push(
+              spec.sheet + " row " + rowIndex + ": " + error.message
+            );
+          }
+        }
+
+        if (rowIndex % 20 === 0) {
+          status("importMsg", `${saved} saved; ${failed} failed…`);
+        }
+      }
+    }
+
+    if (!recognised) {
+      throw new Error("No recognised category sheets found.");
+    }
+
+    status("importMsg",
+      `${saved} records added; ${failed} rows failed.\n` + errors.join("\n"),
+      failed > 0
+    );
+  } catch (error) {
+    status("importMsg", error.message, true);
+  } finally {
+    busy = false;
+    button.disabled = false;
+  }
+}
+
+async function usersScreen() {
+  const users = await fetchAll("household_members");
+
+  $("view").innerHTML =
+    "<h2>Household Users</h2>" +
+    '<p class="muted">Membership is managed in Supabase Table Editor. ' +
+    "Household ID: " + esc(HOUSEHOLD) + "</p>" +
+    '<div class="card"><table><tr><th>Email</th><th>Role</th></tr>' +
+    users.map(user =>
+      "<tr><td>" + esc(user.email) + "</td><td>" +
+      esc(user.role) + "</td></tr>"
+    ).join("") +
+    "</table></div>";
+}
+
+$("signIn").addEventListener("click", signInWithGoogle);
+$("signOut").addEventListener("click", signOut);
+
+$("modal").addEventListener("click", event => {
+  if (event.target.id === "modal") closeModal();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeModal();
+});
+
+window.addEventListener("unhandledrejection", event => {
+  status(
+    $("app").classList.contains("hidden") ? "loginMsg" : "global",
+    event.reason?.message || String(event.reason),
+    true
+  );
+});
+
+init();
+</script>
+</body>
+</html>
